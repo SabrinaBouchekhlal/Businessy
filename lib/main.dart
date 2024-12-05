@@ -15,12 +15,6 @@ import 'package:businessy/views/screens/auth/insights_screen.dart';
 import 'package:businessy/views/screens/auth/settings_screen.dart';
 
 
-
-
-
-
-
-
 void main() {
   runApp(const MainApp());
 }
