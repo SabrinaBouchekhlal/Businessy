@@ -5,250 +5,222 @@ import 'package:businessy/views/widgets/common/custom_text_field.dart';
 import 'package:businessy/views/widgets/common/logo.dart';
 import 'package:businessy/views/widgets/common/google_sign_in_button.dart';
 import 'package:businessy/views/themes/style/typography.dart';
-import 'package:businessy/views/themes/style/dimensions.dart';
 import 'package:businessy/views/themes/style/colors.dart';
-import 'package:businessy/views/themes/style/dimensions.dart';
+import 'package:email_validator/email_validator.dart';
 
-/*
 class LoginScreen extends StatefulWidget {
-   const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
- 
+  static const String pageRoute = '/LoginScreen';
 
-  void _handleLogin() async {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  
+  bool _keepLoggedIn = false;
+  bool _obscurePassword = true;
+  String? _emailError; // Error message for email field
+  String? _passwordError; // Error message for password field
+
+  void _login() {
+    setState(() {
+      _emailError = null; // Reset email error message
+      _passwordError = null; // Reset password error message
+    });
+
     final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    final password = _passwordController.text;
 
-    try {
-      
-      // Navigate to the home screen
-    } catch (e) {
-      // Handle login error
+    // Validate email
+    if (email.isEmpty || !EmailValidator.validate(email)) {
+      setState(() {
+        _emailError = 'Invalid email';
+      });
     }
-  }
 
-  void _handleForgotPassword() {
-    // Navigate to the password reset screen
-  }
+    // Validate password and credentials
+    if (password.isEmpty || !AuthService.validateLogin(email, password)) {
+      setState(() {
+        _passwordError = 'Invalid password';
+      });
+    }
 
-  void _handleSignUp() {
-    // Navigate to the registration screen
+    // Proceed if no errors
+    if (_emailError == null && _passwordError == null) {
+      Navigator.pushNamed(context, '/BusinessSetupScreen');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: Dimensions.loginArrowTop),
-            Icon(Icons.arrow_back, size: Dimensions.loginArrowSize),
-            SizedBox(height: Dimensions.logoImageTop - Dimensions.loginArrowTop),
-            Logo(),
-            SizedBox(height: Dimensions.welcomeTextTop - Dimensions.logoImageTop),
-            Text('Welcome back! Glad to see you, again!', style: TextStyles.welcomeTextStyle),
-            SizedBox(height: Dimensions.emailFieldTop - Dimensions.welcomeTextTop),
-            CustomTextField(
-              controller: _emailController,
-              label: 'Email',
-              hintText: 'Enter your email',
-              width: Dimensions.emailFieldWidth,
-              height: Dimensions.emailFieldHeight,
-              borderRadius: Dimensions.emailFieldBorderRadius,
-              borderWidth: Dimensions.emailFieldBorderWidth,
-            ),
-            SizedBox(height: Dimensions.passwordFieldTop - Dimensions.emailFieldTop),
-            CustomTextField(
-              controller: _passwordController,
-              label: 'Password',
-              hintText: 'Enter your password',
-              obscureText: true,
-              width: Dimensions.passwordFieldWidth,
-              height: Dimensions.passwordFieldHeight,
-            ),
-            SizedBox(height: Dimensions.forgetPasswordTop - Dimensions.passwordFieldTop),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: _handleForgotPassword,
-                child: Text('Forgot Password?', style: TextStyles.forgetPasswordTextStyle),
-              ),
-            ),
-            SizedBox(height: Dimensions.keepLoggedInTop - Dimensions.forgetPasswordTop),
-            Row(
+      backgroundColor: Colors.white,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 50, 24, 36),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Checkbox(value: false, onChanged: (_) {}),
-                Text('Keep me logged in', style: TextStyles.keepLoggedInTextStyle),
-              ],
-            ),
-            SizedBox(height: Dimensions.loginButtonTop - Dimensions.keepLoggedInTop),
-            CustomButton(
-              onPressed: _handleLogin,
-              text: 'Login',
-              width: Dimensions.loginButtonWidth,
-              height: Dimensions.loginButtonHeight,
-              padding: EdgeInsets.symmetric(vertical: Dimensions.loginButtonPadding),
-              backgroundColor: AppColors.brighterGreen,
-              textStyle: TextStyles.loginButtonTextStyle,
-            ),
-            SizedBox(height: Dimensions.orTextTop - Dimensions.loginButtonTop),
-            Center(child: Text('or', style: TextStyles.orTextStyle)),
-            SizedBox(height: Dimensions.googleButtonTop - Dimensions.orTextTop),
-            GoogleSignInButton(
-              width: Dimensions.googleButtonWidth,
-              height: Dimensions.googleButtonHeight,
-              padding: EdgeInsets.symmetric(
-                vertical: Dimensions.googleButtonPadding,
-                horizontal: Dimensions.googleButtonPadding,
-              ),
-              borderRadius: Dimensions.googleButtonBorderRadius,
-              borderWidth: Dimensions.googleButtonBorderWidth,
-            ),
-            SizedBox(height: Dimensions.signUpTextTop - Dimensions.googleButtonTop),
-            Center(
-              child: GestureDetector(
-                onTap: _handleSignUp,
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Don\'t have an account? ',
-                    style: TextStyles.signUpTextStyle.copyWith(fontWeight: FontWeight.w500),
-                    children: [
-                      TextSpan(
-                        text: 'Sign Up now',
-                        style: TextStyles.signUpTextStyle,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 36.0),
+                Center(
+                  child: Column(
+                    children: const [
+                      Logo(),
+                      SizedBox(height: 8.0),
+                      Text(
+                        'Welcome back!',
+                        style:headingTextStyle ,
+                      ),
+                      Text(
+                        'Glad to see you, Again!',
+                        style: headingTextStyle,
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}*/
-
-
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    // Initialize responsive dimensions
-    Dimensions.init(context);
-
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.responsive(16.0),
-            vertical: Dimensions.responsive(16.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: Dimensions.loginArrowTop),
-              Icon(Icons.arrow_back, size: Dimensions.loginArrowSize),
-              SizedBox(height: Dimensions.responsive(30.0)),
-              Center(child: Logo()),
-              SizedBox(height: Dimensions.responsive(40.0)),
-              Text(
-                'Welcome back! Glad to see you, again!',
-                style: TextStyles.welcomeTextStyle,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: Dimensions.responsive(40.0)),
-              CustomTextField(
-                controller: _emailController,
-                label: 'Email',
-                hintText: 'Enter your email',
-                width: double.infinity,
-                height: Dimensions.emailFieldHeight,
-              ),
-              SizedBox(height: Dimensions.responsive(20.0)),
-              CustomTextField(
-                controller: _passwordController,
-                label: 'Password',
-                hintText: 'Enter your password',
-                obscureText: true,
-                width: double.infinity,
-                height: Dimensions.emailFieldHeight,
-              ),
-              SizedBox(height: Dimensions.responsive(10.0)),
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    // Handle forgot password
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyles.forgetPasswordTextStyle,
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  labelText: 'Email',
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                if (_emailError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      _emailError!,
+                      style: const TextStyle(color: Colors.red, fontSize: 12.0),
+                    ),
+                  ),
+                const SizedBox(height: 14.0),
+                CustomTextField(
+                  labelText: 'Password',
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
                 ),
-              ),
-              SizedBox(height: Dimensions.responsive(30.0)),
-              CustomButton(
-                onPressed: () {
-                  // Handle login
-                },
-                text: 'Login',
-                width: double.infinity,
-                height: Dimensions.loginButtonHeight,
-                padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.responsive(15.0),
-                ),
-                backgroundColor: AppColors.brighterGreen,
-                textStyle: TextStyles.loginButtonTextStyle,
-              ),
-              SizedBox(height: Dimensions.responsive(20.0)),
-              Center(child: Text('or', style: TextStyles.orTextStyle)),
-              SizedBox(height: Dimensions.responsive(20.0)),
-             GoogleSignInButton(
-                 width: 320.0,  // Custom width
-                 height: 60.0,  // Custom height
-                 padding: const EdgeInsets.all(16.0), // Custom padding
-                 borderRadius: 20.0, // Custom border radius
-                  ) ,
-              SizedBox(height: Dimensions.responsive(30.0)),
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    // Handle sign up
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Don\'t have an account? ',
-                      style: TextStyles.keepLoggedInTextStyle,
-                      children: [
-                        TextSpan(
-                          text: 'Sign Up now',
-                          style: TextStyles.signUpTextStyle,
-                        ),
-                      ],
+                if (_passwordError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      _passwordError!,
+                      style: const TextStyle(color: Colors.red, fontSize: 12.0),
+                    ),
+                  ),
+                const SizedBox(height: 13.0),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/ForgotPasswordScreen');
+                    },
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        color: darkGrey,
+                        fontSize: 14.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8.0),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _keepLoggedIn,
+                      onChanged: (value) {
+                        setState(() {
+                          _keepLoggedIn = value!;
+                        });
+                      },
+                      activeColor: brighterGreen,
+                    ),
+                    const Text(
+                      'Keep me logged in',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: blackColor,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12.0),
+                CustomButton(
+                  text: 'Login',
+                  onPressed: (){
+
+                  },
+                ),
+                const SizedBox(height: 12.0),
+                const Center(
+                  child: Text(
+                    'or',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: blackColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12.0),
+                GoogleSignInButton(
+                  onPressed: () {
+                    // Google sign-in functionality
+                  },
+                ),
+                const SizedBox(height: 50.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Don't have an account?",
+                        style: TextStyle(fontSize: 14.0, color: blackShade),
+                      ),
+                      const SizedBox(width: 4.0),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/SignUpScreen');
+                        },
+                        child: const Text(
+                          'Sign Up Now',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: brighterGreen,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

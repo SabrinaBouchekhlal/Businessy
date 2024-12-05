@@ -6,21 +6,24 @@ import 'package:businessy/views/widgets/common/google_sign_in_button.dart';
 import 'package:businessy/views/themes/style/typography.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class SetNewPasswordScreen extends StatefulWidget {
+  const SetNewPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<SetNewPasswordScreen> createState() => _SetNewPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
+  
+  static const String pageRoute = '/SetNewPasswordScreen';
 
-  static const String pageRoute = '/ForgotPasswordScreen';
+  final TextEditingController _newpasswordController = TextEditingController();
+  final TextEditingController _confirmpasswordController = TextEditingController();
 
-  final TextEditingController _emailController = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: whiteColor,
       body: GestureDetector(
@@ -48,29 +51,38 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     Logo(),
                     const SizedBox(height: 33.0),
                     const Text(
-                      'Forgot Password?',
+                      'Create new password',
                        style:headingTextStyle ,
                       ),
                       const SizedBox(height: 12.0),
                     const Text(
-                      'Don’t worry! Just enter your email, and we’ll help you reset your password.',
+                      'Your new password must be unique from those previously used',
                       style: subHeadingTextStyle,
                       textAlign: TextAlign.center,
                      ),
                   
                   ],),
                 ),
-                const SizedBox(height: 26.0),
-                CustomTextField(
-                  labelText: 'Email',
-                  controller: _emailController,
+                const SizedBox(height: 44.0),
+               CustomTextField(
+                  labelText: 'New Password',
+                  controller: _newpasswordController,
+                  obscureText: true,
+                  suffixIcon: const Icon(Icons.visibility_outlined, color: darkGrey),
                 ),
-                const SizedBox(height: 26.0),
+                const SizedBox(height: 14.0),
+                CustomTextField(
+                  labelText: 'Confirm Password',
+                  controller: _confirmpasswordController,
+                  obscureText: true,
+                  suffixIcon: const Icon(Icons.visibility_outlined, color: darkGrey),
+                ),
+                const SizedBox(height: 33.0),
                 
                 CustomButton(
-                  text: 'Send Code',
+                  text: 'Verify',
                   onPressed: () {
-                    Navigator.pushNamed(context,'/OtpVerification');
+                    // Login functionality
                   },
                 ),
                 
