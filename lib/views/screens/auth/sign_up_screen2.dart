@@ -1,27 +1,27 @@
+import 'package:businessy/services/form_data.dart';
+import 'package:businessy/views/themes/style/typography.dart';
+import 'package:businessy/views/widgets/common/auth/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:businessy/views/widgets/common/custom_button.dart';
-import 'package:businessy/views/widgets/common/custom_text_field.dart';
-import 'package:businessy/views/widgets/common/logo.dart';
-import 'package:businessy/views/widgets/common/google_sign_in_button.dart';
+import 'package:businessy/views/widgets/common/auth/custom_button.dart';
+import 'package:businessy/views/widgets/common/auth/logo.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:businessy/services/auth_service.dart';
 
-
 class SignUpScreen2 extends StatefulWidget {
-  const SignUpScreen2({super.key});
+  static const String pageRoute = '/SignUpScreen2';
+
+  const SignUpScreen2({Key? key}) : super(key: key);
 
   @override
   State<SignUpScreen2> createState() => _SignUpScreen2State();
 }
 
 class _SignUpScreen2State extends State<SignUpScreen2> {
-  static const String pageRoute = '/SignUpScreen2';
-
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmpasswordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
@@ -31,125 +31,150 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
       // Store the email and password in AuthService when registration is successful
       AuthService.setEmail(_emailController.text);
       AuthService.setPassword(_passwordController.text);
-
+      UserData.email = _emailController.text;
+      UserData.password = _passwordController.text;
       // Navigate to the next screen after registration
       Navigator.pushNamed(context, '/BusinessSetupScreen');
     }
+  }
+
+  Widget _buildHeader() {
+    return const Column(
+      children: [
+        Logo(),
+        SizedBox(height: 8.0),
+        Text(
+          'New here?',
+          style: LoginTypography.heading,
+        ),
+        Text(
+          'We’re excited to have you!',
+          style: LoginTypography.heading,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField({
+    required String labelText,
+    required TextEditingController controller,
+    required String? Function(String?) validator,
+    bool obscureText = false,
+    Widget? suffixIcon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return CustomTextField(
+      labelText: labelText,
+      controller: controller,
+      obscureText: obscureText,
+      suffixIcon: suffixIcon,
+      keyboardType: keyboardType,
+      validator: validator,
+    );
+  }
+
+  Widget _buildPasswordField({
+    required String labelText,
+    required TextEditingController controller,
+    required bool isVisible,
+    required void Function() toggleVisibility,
+    required String? Function(String?) validator,
+  }) {
+    return _buildTextField(
+      labelText: labelText,
+      controller: controller,
+      obscureText: !isVisible,
+      suffixIcon: IconButton(
+        icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+        onPressed: toggleVisibility,
+      ),
+      validator: validator,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, size: 30,),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 50, 24, 36),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: blackColor,
-                    ),
-                  ),
-                  const SizedBox(height: 36.0),
-                  Center(
-                    child: Column(
-                      children: const [
-                        Logo(),
-                        SizedBox(height: 8.0),
-                        Text(
-                          'New here?',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'We’re excited to have you!',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomTextField(
-                    labelText: 'Email',
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!EmailValidator.validate(value)) {
-                        return 'Enter a valid email address';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 14.0),
-                  CustomTextField(
-                    labelText: 'Password',
-                    controller: _passwordController,
-                    obscureText: !_isPasswordVisible,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 14.0),
-                  CustomTextField(
-                    labelText: 'Confirm Password',
-                    controller: _confirmpasswordController,
-                    obscureText: !_isConfirmPasswordVisible,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                        });
-                      },
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please confirm your password';
-                      }
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 37.0),
-                  CustomButton(
-                    text: 'Register',
-                    onPressed: _register,
-                  ),
-                ],
-              ),
+          padding: const EdgeInsets.fromLTRB(24, 50, 24, 36),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(child: _buildHeader()),
+                const SizedBox(height: 20.0),
+                _buildTextField(
+                  labelText: 'Email',
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!EmailValidator.validate(value)) {
+                      return 'Enter a valid email address';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 14.0),
+                _buildPasswordField(
+                  labelText: 'Password',
+                  controller: _passwordController,
+                  isVisible: _isPasswordVisible,
+                  toggleVisibility: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters long';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 14.0),
+                _buildPasswordField(
+                  labelText: 'Confirm Password',
+                  controller: _confirmPasswordController,
+                  isVisible: _isConfirmPasswordVisible,
+                  toggleVisibility: () {
+                    setState(() {
+                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please confirm your password';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 37.0),
+                CustomButton(
+                  text: 'Register',
+                  onPressed: _register,
+                ),
+              ],
             ),
           ),
         ),

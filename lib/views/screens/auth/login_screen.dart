@@ -1,10 +1,12 @@
+import 'package:businessy/views/widgets/common/auth/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:businessy/services/auth_service.dart';
-import 'package:businessy/views/widgets/common/custom_button.dart';
-import 'package:businessy/views/widgets/common/custom_text_field.dart';
-import 'package:businessy/views/widgets/common/logo.dart';
-import 'package:businessy/views/widgets/common/google_sign_in_button.dart';
+import 'package:businessy/views/themes/style/dimensions.dart';
+import 'package:businessy/views/themes/style/styles.dart';
 import 'package:businessy/views/themes/style/typography.dart';
+import 'package:businessy/services/auth_service.dart';
+import 'package:businessy/views/widgets/common/auth/custom_button.dart';
+import 'package:businessy/views/widgets/common/auth/logo.dart';
+import 'package:businessy/views/widgets/common/auth/google_sign_in_button.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -20,38 +22,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   bool _keepLoggedIn = false;
   bool _obscurePassword = true;
-  String? _emailError; // Error message for email field
-  String? _passwordError; // Error message for password field
+  String? _emailError;
+  String? _passwordError;
 
   void _login() {
     setState(() {
-      _emailError = null; // Reset email error message
-      _passwordError = null; // Reset password error message
+      _emailError = null;
+      _passwordError = null;
     });
 
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
-    // Validate email
     if (email.isEmpty || !EmailValidator.validate(email)) {
       setState(() {
         _emailError = 'Invalid email';
       });
     }
 
-    // Validate password and credentials
     if (password.isEmpty || !AuthService.validateLogin(email, password)) {
       setState(() {
         _passwordError = 'Invalid password';
       });
     }
 
-    // Proceed if no errors
     if (_emailError == null && _passwordError == null) {
-      Navigator.pushNamed(context, '/BusinessSetupScreen');
+      Navigator.pushNamed(context, '/ProfileScreen');
+
     }
   }
 
@@ -59,65 +59,66 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, size: 30,),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 50, 24, 36),
+            padding: const EdgeInsets.fromLTRB(
+              LoginDimensions.pagePadding,
+              8,
+              LoginDimensions.pagePadding,
+              36,
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 36.0),
-                Center(
-                  child: Column(
-                    children: const [
-                      Logo(),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Welcome back!',
-                        style:headingTextStyle ,
-                      ),
-                      Text(
-                        'Glad to see you, Again!',
-                        style: headingTextStyle,
-                      ),
-                    ],
-                  ),
+                const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Logo(),
+                    SizedBox(height: LoginDimensions.logoTextSpacing),
+                    Text(
+                      'Welcome back!',
+                      style: LoginTypography.heading,
+                    ),
+                    Text(
+                      'Glad to see you, Again!',
+                      style: LoginTypography.heading,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20.0),
                 CustomTextField(
                   labelText: 'Email',
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+
                 ),
                 if (_emailError != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
                       _emailError!,
-                      style: const TextStyle(color: Colors.red, fontSize: 12.0),
+                      style: LoginTypography.error,
                     ),
                   ),
-                const SizedBox(height: 14.0),
+                const SizedBox(height: LoginDimensions.fieldSpacing),
                 CustomTextField(
                   labelText: 'Password',
                   controller: _passwordController,
                   obscureText: _obscurePassword,
                   suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey,
-                    ),
+                    icon: _obscurePassword
+                        ? AppStyles.visibilityOff
+                        : AppStyles.visibilityOn,
                     onPressed: () {
                       setState(() {
                         _obscurePassword = !_obscurePassword;
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
                       _passwordError!,
-                      style: const TextStyle(color: Colors.red, fontSize: 12.0),
+                      style: LoginTypography.error,
                     ),
                   ),
                 const SizedBox(height: 13.0),
@@ -142,14 +143,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(
-                        color: darkGrey,
-                        fontSize: 14.0,
-                      ),
+                      style: LoginTypography.forgotPassword,
                     ),
                   ),
                 ),
-                const SizedBox(height: 8.0),
+                const SizedBox(height: LoginDimensions.checkboxTextSpacing),
                 Row(
                   children: [
                     Checkbox(
@@ -163,44 +161,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const Text(
                       'Keep me logged in',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: blackColor,
-                      ),
+                      style: LoginTypography.keepMeLoggedIn,
                     ),
                   ],
                 ),
-                const SizedBox(height: 12.0),
+                const SizedBox(height: LoginDimensions.buttonSpacing),
                 CustomButton(
                   text: 'Login',
-                  onPressed: (){
-
-                  },
+                  onPressed: _login,
                 ),
-                const SizedBox(height: 12.0),
+                const SizedBox(height: LoginDimensions.buttonSpacing),
                 const Center(
                   child: Text(
                     'or',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: blackColor,
-                    ),
+                    style: LoginTypography.orText,
                   ),
                 ),
-                const SizedBox(height: 12.0),
-                GoogleSignInButton(
-                  onPressed: () {
-                    // Google sign-in functionality
-                  },
+                const SizedBox(height: LoginDimensions.buttonSpacing),
+                Center(
+                  child: GoogleSignInButton(
+                    onPressed: () {
+                      // Google sign-in functionality
+                    },
+                  ),
                 ),
-                const SizedBox(height: 50.0),
+                const SizedBox(height: LoginDimensions.bottomSpacing),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
                         "Don't have an account?",
-                        style: TextStyle(fontSize: 14.0, color: blackShade),
+                        style: LoginTypography.signUpPrompt,
                       ),
                       const SizedBox(width: 4.0),
                       GestureDetector(
@@ -209,11 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: const Text(
                           'Sign Up Now',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: brighterGreen,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: LoginTypography.signUpNow,
                         ),
                       ),
                     ],

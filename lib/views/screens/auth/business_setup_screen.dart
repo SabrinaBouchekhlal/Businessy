@@ -1,11 +1,11 @@
+import 'package:businessy/views/widgets/common/auth/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:businessy/views/widgets/common/custom_button.dart';
-import 'package:businessy/views/widgets/common/custom_text_field.dart';
-import 'package:businessy/views/widgets/common/logo.dart';
+import 'package:businessy/views/widgets/common/auth/custom_button.dart';
+import 'package:businessy/views/widgets/common/auth/logo.dart';
 import 'package:businessy/views/themes/style/typography.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:businessy/views/screens/auth/logo_upload_screen.dart';
-import 'package:businessy/services/form_data.dart'; 
+import 'package:businessy/services/form_data.dart';
 
 class BusinessSetupScreen extends StatefulWidget {
   const BusinessSetupScreen({super.key});
@@ -36,6 +36,10 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
+      UserData.businessName = FormData.businessNameController.text;
+      UserData.launchDate = FormData.launchDateController.text;
+      UserData.actualBalance = FormData.actualBalanceController.text;
+      UserData.sellingType = FormData.selectedSellingType;
       // Data is already stored in FormData's controllers
       Navigator.pushNamed(context, '/LogoUploadScreen'); // Navigate to the next screen
     }
@@ -45,44 +49,45 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            size: 30,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 50, 24, 36),
-            child: Form( // Wrap with Form
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 36),
+            child: Form(
+              // Wrap with Form
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: blackColor,
-                    ),
-                  ),
-                  const SizedBox(height: 26.0),
-                  Center(
+                  const Center(
                     child: const Column(children: [
                       Logo(),
                       SizedBox(height: 33.0),
                       Text(
                         'Get Your Business Set Up!',
-                        style: headingTextStyle,
+                        style: LoginTypography.heading,
                       ),
                       SizedBox(height: 12.0),
                       Text(
                         "To get started let's gather a few pieces of information about your business",
-                        style: subHeadingTextStyle,
+                        style: LoginTypography.subHeading,
                         textAlign: TextAlign.center,
                       ),
                     ]),
                   ),
-                  const SizedBox(height: 37.0),
+                  const SizedBox(height: 24.0),
                   CustomTextField(
                     labelText: 'Business Name',
                     controller: FormData.businessNameController,
@@ -124,7 +129,7 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
                   DropdownButtonFormField<String>(
                     value: FormData.selectedSellingType,
                     items: _sellingTypeOptions.map((String option) {
-                      return DropdownMenuItem<String>( 
+                      return DropdownMenuItem<String>(
                         value: option,
                         child: Text(option),
                       );
@@ -137,23 +142,43 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
                         });
                       }
                     },
+                    style: const TextStyle(
+                      fontFamily: 'Urbanist',
+                      fontSize: 16.0,
+                      color: Colors.black,
+                    ),
+                    dropdownColor: Colors.white,
                     decoration: InputDecoration(
                       labelText: 'What do you sell?',
                       labelStyle: const TextStyle(
+                        fontFamily: 'Urbanist',
                         color: Colors.grey,
                         fontSize: 16.0,
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: const BorderSide(color: brighterGreen, width: 2.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:
+                            const BorderSide(color: brighterGreen, width: 2.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:
+                            const BorderSide(color: brighterGreen, width: 2.0),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:
+                        const BorderSide(color: brighterGreen, width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: const BorderSide(color: brighterGreen, width: 2.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:
+                            const BorderSide(color: brighterGreen, width: 2.0),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 16.0),
                     ),
                   ),
                   const SizedBox(height: 59.0),
@@ -170,5 +195,3 @@ class _BusinessSetupScreenState extends State<BusinessSetupScreen> {
     );
   }
 }
-
-

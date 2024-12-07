@@ -1,22 +1,29 @@
 name: businessy
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
 
+# Version and build number for your application
+version: 1.0.0+1
+
+# Flutter SDK version constraint
 environment:
-  sdk: ^3.5.3
+  sdk: ">=3.5.4 <4.0.0"  # Use the latest Dart SDK version range
 
+# Dependencies for your project
 dependencies:
-  email_validator: ^2.1.17
   flutter:
     sdk: flutter
-  responsive_framework: ^0.1.6 
+  cupertino_icons: ^1.0.8
+  curved_navigation_bar: ^1.0.3
+  step_progress_indicator: 1.0.2
+  syncfusion_flutter_gauges: 21.2.4
+  flutter_svg: ^2.0.5
+  email_validator: ^2.1.17
+  responsive_framework: ^0.1.6
   charts_flutter: ^0.11.0
-  fl_chart: ^0.67.0  
-  curved_navigation_bar: ^1.0.0 
-  
-  
-  
+  fl_chart: ^0.67.0
+  image_picker: ^1.1.2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
@@ -24,10 +31,45 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
+  # Enable Material Design
   uses-material-design: true
-  assets:
-  - assets/img/logo.png
-  - assets/img/google_logo.png
-  - assets/img/upload.png
- 
 
+  # Declare asset directory for images or other resources
+  assets:
+    - assets/img/business_assets/
+    - assets/img/logo.png
+    - assets/img/logo-white.png
+    - assets/img/BG.jpeg
+    - assets/img/google_logo.png
+    - assets/img/upload.png
+
+  # Declare fonts for your project
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat/static/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat/static/Montserrat-Light.ttf
+          weight: 300  # Light weight
+        - asset: assets/fonts/Montserrat/static/Montserrat-Medium.ttf
+          weight: 500  # Medium weight
+        - asset: assets/fonts/Montserrat/static/Montserrat-Bold.ttf
+          weight: 700  # Bold weight
+        - asset: assets/fonts/Montserrat/static/Montserrat-SemiBold.ttf
+          weight: 600  # SemiBold weight
+        - asset: assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf
+          weight: 800  # ExtraBold weight
+        - asset: assets/fonts/Montserrat/static/Montserrat-Italic.ttf
+          style: italic
+    - family: Urbanist
+      fonts:
+        - asset: assets/fonts/Urbanist/static/Urbanist-Regular.ttf
+        - asset: assets/fonts/Urbanist/static/Urbanist-Light.ttf
+          weight: 300 # Light weight
+        - asset: assets/fonts/Urbanist/static/Urbanist-Medium.ttf
+          weight: 500 # Medium weight
+        - asset: assets/fonts/Urbanist/static/Urbanist-Bold.ttf
+          weight: 700 # Bold weight
+        - asset: assets/fonts/Urbanist/static/Urbanist-SemiBold.ttf
+          weight: 600 # SemiBold weight
+        - asset: assets/fonts/Urbanist/static/Urbanist-Italic.ttf
+          style: italic

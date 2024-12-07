@@ -1,14 +1,9 @@
-
-import 'package:flutter/material.dart';
-const double defaultPadding = 24.0;
-const double fieldSpacing = 16.0;
-const double buttonHeight = 50.0;
-
-// Responsive widget scaling
-double responsiveWidth(BuildContext context, double ratio) {
-  return MediaQuery.of(context).size.width * ratio;
-}
-
-double responsiveHeight(BuildContext context, double ratio) {
-  return MediaQuery.of(context).size.height * ratio;
+class LoginDimensions {
+  static const double pagePadding = 36.0;
+  static const double topSpacing = 36.0;
+  static const double fieldSpacing = 8.0;
+  static const double buttonSpacing = 8.0;
+  static const double bottomSpacing = 50.0;
+  static const double logoTextSpacing = 12.0;
+  static const double checkboxTextSpacing = 0.0;
 }

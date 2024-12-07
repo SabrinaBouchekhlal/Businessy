@@ -1,8 +1,8 @@
+import 'package:businessy/views/widgets/common/auth/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:businessy/views/widgets/common/custom_button.dart';
-import 'package:businessy/views/widgets/common/custom_text_field.dart';
-import 'package:businessy/views/widgets/common/logo.dart';
-import 'package:businessy/views/widgets/common/google_sign_in_button.dart';
+import 'package:businessy/views/widgets/common/auth/custom_button.dart';
+import 'package:businessy/views/widgets/common/auth/logo.dart';
+import 'package:businessy/views/widgets/common/auth/google_sign_in_button.dart';
 import 'package:businessy/views/themes/style/typography.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 
@@ -26,6 +26,14 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
 
     return Scaffold(
       backgroundColor: whiteColor,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, size: 30,),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
@@ -34,30 +42,19 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: blackColor,
-                  ),
-                ),
-                const SizedBox(height: 36.0),
                 //const Center(child: Logo()),
-                Center(
+                const Center(
                   child: const Column(children: [
                     Logo(),
                     const SizedBox(height: 33.0),
                     const Text(
                       'Create new password',
-                       style:headingTextStyle ,
+                       style:LoginTypography.heading,
                       ),
                       const SizedBox(height: 12.0),
                     const Text(
                       'Your new password must be unique from those previously used',
-                      style: subHeadingTextStyle,
+                      style: LoginTypography.subHeading,
                       textAlign: TextAlign.center,
                      ),
                   

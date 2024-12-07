@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class FormData {
   // Singleton implementation
   FormData._privateConstructor();
@@ -23,4 +24,18 @@ class FormData {
     sellingTypeController.clear();
     selectedSellingType = 'Products';
   }
+}
+
+class UserData {
+  static String firstName = '';
+  static String lastName = '';
+  static String birthDate = '';
+  static String phoneNumber = '';
+  static String email = '';
+  static String password = '';
+  static String businessName = '';
+  static String launchDate = '';
+  static String actualBalance = '';
+  static String sellingType = '';
+  static String logo = '';
 }

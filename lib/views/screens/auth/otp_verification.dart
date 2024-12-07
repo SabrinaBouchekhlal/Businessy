@@ -1,6 +1,7 @@
+import 'package:businessy/views/themes/style/dimensions.dart';
 import 'package:flutter/material.dart';
-import 'package:businessy/views/widgets/common/custom_button.dart';
-import 'package:businessy/views/widgets/common/logo.dart';
+import 'package:businessy/views/widgets/common/auth/custom_button.dart';
+import 'package:businessy/views/widgets/common/auth/logo.dart';
 import 'package:businessy/views/themes/style/typography.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:businessy/views/screens/auth/set_new_password_screen.dart';
@@ -13,7 +14,7 @@ class OtpVerification extends StatefulWidget {
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
-   static const String pageRoute = '/OtpVerification';
+  static const String pageRoute = '/OtpVerification';
 
   final List<TextEditingController> _otpControllers =
       List.generate(6, (index) => TextEditingController());
@@ -36,38 +37,35 @@ class _OtpVerificationState extends State<OtpVerification> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, size: 30,),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 50, 24, 36),
+            padding: const EdgeInsets.fromLTRB(LoginDimensions.pagePadding, 24, LoginDimensions.pagePadding, 36),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: blackColor,
-                  ),
-                ),
-                const SizedBox(height: 36.0),
-                Center(
+                const Center(
                   child: Column(
                     children: [
                       const Logo(),
                       const SizedBox(height: 33.0),
                       const Text(
                         'OTP Verification',
-                        style: headingTextStyle,
+                        style: LoginTypography.heading,
                       ),
                       const SizedBox(height: 12.0),
                       const Text(
                         'Enter the verification code we just sent to your email address.',
-                        style: subHeadingTextStyle,
+                        style: LoginTypography.subHeading,
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -75,73 +73,80 @@ class _OtpVerificationState extends State<OtpVerification> {
                 ),
                 const SizedBox(height: 26.0),
                 Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: List.generate(6, (index) {
-    return SizedBox(
-      width: 50,
-      child: TextField(
-        controller: _otpControllers[index],
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: _otpControllers[index].text.isNotEmpty ? whiteColor : blackColor, // Dynamically change text color
-        ),
-        decoration: InputDecoration(
-          counterText: '',
-          filled: true,
-          fillColor: _otpControllers[index].text.isNotEmpty ? Color(0x66229799) : whiteColor, // Dynamically change background color
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(
-              color: brighterGreen,
-              width: 2.0,
-            ),
-          ),
-        ),
-        onChanged: (value) {
-          setState(() {}); // Trigger a rebuild to update the UI
-          if (value.length == 1) {
-            if (index < 5) {
-              FocusScope.of(context).nextFocus();
-            } else {
-              FocusScope.of(context).unfocus();
-            }
-          } else if (value.isEmpty) {
-            if (index > 0) {
-              FocusScope.of(context).previousFocus();
-            }
-          }
-        },
-      ),
-    );
-  }),
-),
-
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(6, (index) {
+                    return SizedBox(
+                      width: 45,
+                      height: 50,
+                      child: Center(
+                        child: TextField(
+                          controller: _otpControllers[index],
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          maxLength: 1,
+                          style: TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: _otpControllers[index].text.isNotEmpty
+                                ? whiteColor
+                                : blackColor, // Dynamically change text color
+                          ),
+                          decoration: InputDecoration(
+                            counterText: '',
+                            filled: true,
+                            fillColor: _otpControllers[index].text.isNotEmpty
+                                ? const Color(0x66229799)
+                                : whiteColor,
+                            // Dynamically change background color
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(
+                                color: inputBorder,
+                                width: 1.0,
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(
+                                color: brighterGreen,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {}); // Trigger a rebuild to update the UI
+                            if (value.length == 1) {
+                              if (index < 5) {
+                                FocusScope.of(context).nextFocus();
+                              } else {
+                                FocusScope.of(context).unfocus();
+                              }
+                            } else if (value.isEmpty) {
+                              if (index > 0) {
+                                FocusScope.of(context).previousFocus();
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  }),
+                ),
                 const SizedBox(height: 26.0),
                 CustomButton(
-                  text: 'Verify',
-                  onPressed:(){
-                   // _verifyOtp,
-                     Navigator.pushNamed(context, '//SetNewPasswordScreen');
-                  } 
-                ),
+                    text: 'Verify',
+                    onPressed: () {
+                      // _verifyOtp,
+                      Navigator.pushNamed(context, '/SetNewPasswordScreen');
+                    }),
               ],
             ),
           ),
