@@ -132,13 +132,13 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           const SizedBox(height: 10),
                           Top3ItemCard(
-                              itemName: 'Turtle Plush', itemNumber: '1'),
+                              itemName: 'Handbag', itemNumber: '1'),
                           const SizedBox(height: 10),
                           Top3ItemCard(
                               itemName: 'Turtle Plush', itemNumber: '2'),
                           const SizedBox(height: 10),
                           Top3ItemCard(
-                              itemName: 'Turtle Plush', itemNumber: '3'),
+                              itemName: 'Sweater', itemNumber: '3'),
                         ],
                       )
                     ],
@@ -157,24 +157,10 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           const SizedBox(height: 10),
                           StockItemCard(
-                              itemName: 'Turtle Plush',
+                              itemName: ' Sweater',
                               quantityLeft: 1,
                               isOutOfStock: false),
-                          const SizedBox(height: 10),
-                          StockItemCard(
-                              itemName: 'Turtle Plush',
-                              quantityLeft: 5,
-                              isOutOfStock: false),
-                          const SizedBox(height: 10),
-                          StockItemCard(
-                              itemName: 'Turtle Plush',
-                              quantityLeft: 4,
-                              isOutOfStock: false),
-                          const SizedBox(height: 10),
-                          StockItemCard(
-                              itemName: 'Turtle Plush',
-                              quantityLeft: 4,
-                              isOutOfStock: false),
+                         
                         ],
                       )
                     ]),
@@ -189,20 +175,7 @@ class _HomepageState extends State<Homepage> {
                               quantityLeft: 1,
                               isOutOfStock: true),
                           const SizedBox(height: 10),
-                          StockItemCard(
-                              itemName: 'Turtle Plush',
-                              quantityLeft: 5,
-                              isOutOfStock: true),
-                          const SizedBox(height: 10),
-                          StockItemCard(
-                              itemName: 'Turtle Plush',
-                              quantityLeft: 4,
-                              isOutOfStock: true),
-                          const SizedBox(height: 10),
-                          StockItemCard(
-                              itemName: 'Turtle Plush',
-                              quantityLeft: 4,
-                              isOutOfStock: true),
+                          
                         ],
                       )
                     ])

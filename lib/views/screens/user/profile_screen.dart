@@ -6,6 +6,7 @@ import 'package:businessy/views/themes/style/colors.dart';
 import 'package:businessy/services/form_data.dart';
 import 'dart:io';
 
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -150,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       radius: 60,
                       backgroundImage: _image != null
                           ? FileImage(_image) // Display selected image
-                          : AssetImage('assets/img/google_logo.png')
+                          : AssetImage('assets/img/business_assets/SerineCrochetLOGO.png')
                               as ImageProvider, // Default image if no profile pic
                       backgroundColor: Colors.grey.shade200,
                     ),

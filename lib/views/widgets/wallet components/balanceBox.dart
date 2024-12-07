@@ -40,8 +40,8 @@ class _BalanceBoxState extends State<BalanceBox> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Total Balance', style: BalanceBoxTypography.title),
-              Text('${widget.income - widget.expenses} DA', style: BalanceBoxTypography.totalAmount),
+              const Text('Total Balance', style: BalanceBoxTypography.title),
+              Text('${widget.income + widget.expenses} DA', style: BalanceBoxTypography.totalAmount),
             ],
           ),
           Row(
@@ -50,7 +50,7 @@ class _BalanceBoxState extends State<BalanceBox> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Icon(Icons.arrow_circle_up_outlined, color: whiteColor, size: 20),
                       Padding(
@@ -65,11 +65,11 @@ class _BalanceBoxState extends State<BalanceBox> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Icon(Icons.arrow_circle_down_outlined, color: whiteColor, size: 20),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        padding: EdgeInsets.symmetric(horizontal: 4),
                         child: Text('Expenses', style: BalanceBoxTypography.subtitle),
                       ),
                     ],

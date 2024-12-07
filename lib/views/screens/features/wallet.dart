@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/wallet components/goalProgressBar.dart';
 
 Map<String, double> balanceData = {
-  'income': 80000.00,  // Example balance data
-  'expenses': 30000.00, // Example expense data
+  'income': 45000.00,  // Example balance data
+  'expenses': 3000.00, // Example expense data
 };
 
 class WalletPage extends StatefulWidget {

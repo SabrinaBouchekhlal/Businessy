@@ -27,15 +27,15 @@ class FormData {
 }
 
 class UserData {
-  static String firstName = '';
-  static String lastName = '';
-  static String birthDate = '';
-  static String phoneNumber = '';
-  static String email = '';
-  static String password = '';
-  static String businessName = '';
-  static String launchDate = '';
-  static String actualBalance = '';
-  static String sellingType = '';
+  static String firstName = 'Nada';
+  static String lastName = 'Zanoun';
+  static String birthDate = '22/03/2005';
+  static String phoneNumber = '07796562442';
+  static String email = 'nada.zanoun@ensia.edu.dz';
+  static String password = 'nada,zanoun';
+  static String businessName = 'Serine Crochet';
+  static String launchDate = '27/07/2024';
+  static String actualBalance = '61000';
+  static String sellingType = 'Products';
   static String logo = '';
 }

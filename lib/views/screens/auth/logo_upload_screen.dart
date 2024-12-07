@@ -122,7 +122,7 @@ class _LogoUploadScreenState extends State<LogoUploadScreen> {
                   text: 'Finish',
                   onPressed: () {
                     UserData.logo= _logoImage.toString();
-                    Navigator.pushNamed(context, '/ProfileScreen');},
+                    Navigator.pushNamed(context, '/MainScreen');},
                 ),
               ],
             ),
