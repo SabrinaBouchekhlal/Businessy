@@ -33,7 +33,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Firstpage(), //LoginScreen(),
+      home: const Mainscreen(), //LoginScreen(),
       routes: {
         //main pages
         '/ProfileScreen': (ctx) => const ProfileScreen(),
@@ -51,7 +51,6 @@ class MainApp extends StatelessWidget {
         '/WalletPage': (ctx) => const WalletPage(),
         '/InventoryPage': (ctx) => const InventoryPage(),
         '/InsightsPage': (ctx) => InsightsPage(),
-
       },
     );
   }

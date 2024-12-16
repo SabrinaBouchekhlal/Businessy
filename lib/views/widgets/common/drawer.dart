@@ -75,98 +75,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               },
             ),
           ),
-          // Dashboard ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
-            child: ListTile(
-              leading: Icon(
-                Icons.home_filled, size: 24,
-                color: _selectedIndex == 1 ? const Color(0xFF229799) : null, // Change icon color when selected
-              ),
-              title: Text('Dashboard',
-                  style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: _selectedIndex == 1 ? const Color(0xFF229799) : null)), // Change text color when selected
-              selected: _selectedIndex == 1, // Check if it's selected
-              selectedTileColor: const Color(0xFFD1F3F2), // Set background color for selected
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 1; // Update selected index
-                });
-              },
-            ),
-          ),
-          // Wallet ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
-            child: ListTile(
-              leading: Icon(
-                Icons.account_balance_wallet_outlined, size: 24,
-                color: _selectedIndex == 2 ? mainGreen : null, // Change icon color when selected
-              ),
-              title: Text('Wallet',
-                  style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: _selectedIndex == 2 ? mainGreen : null)), // Change text color when selected
-              selected: _selectedIndex == 2, // Check if it's selected
-              selectedTileColor: const Color(0xFFD1F3F2), // Set background color for selected
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 2; // Update selected index
-                });
-              },
-            ),
-          ),
-          // Inventory ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
-            child: ListTile(
-              leading: Icon(
-                Icons.inventory_2_outlined, size: 24,
-                color: _selectedIndex == 3 ? const Color(0xFF229799) : null, // Change icon color when selected
-              ),
-              title: Text('Inventory',
-                  style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: _selectedIndex == 3 ? const Color(0xFF229799) : null)), // Change text color when selected
-              selected: _selectedIndex == 3, // Check if it's selected
-              selectedTileColor: const Color(0xFFD1F3F2), // Set background color for selected
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 3; // Update selected index
-                });
-              },
-            ),
-          ),
-          // Insights ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
-            child: ListTile(
-              leading: Icon(
-                Icons.analytics_outlined, size: 24,
-                color: _selectedIndex == 4 ? const Color(0xFF229799) : null, // Change icon color when selected
-              ),
-              title: Text('Insights',
-                  style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: _selectedIndex == 4 ? const Color(0xFF229799) : null)), // Change text color when selected
-              selected: _selectedIndex == 4, // Check if it's selected
-              selectedTileColor: const Color(0xFFD1F3F2), // Set background color for selected
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 4; // Update selected index
-                });
-              },
-            ),
-          ),
           // Logout ListTile
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
@@ -195,6 +103,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               },
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
             child: ListTile(
