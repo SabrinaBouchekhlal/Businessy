@@ -48,7 +48,7 @@ class _PrimaryAppbarState extends State<PrimaryAppbar> {
           ? [
               IconButton(
                 icon: const Icon(Icons.account_circle_rounded),
-                onPressed: () {},
+                onPressed: () { },
               )
             ]
           : null,
