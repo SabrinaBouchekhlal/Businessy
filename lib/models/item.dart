@@ -1,26 +1,43 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:businessy/database/base_db.dart';
-import 'package:businessy/database/db_helper.dart';
+class Item {
+  int? id;
+  String name;
+  double price;
+  int quantity;
+  String itemImage;
+  int categoryId;
+  int userId;
 
-class ItemTable extends DBBaseTable {
-  @override
-  var db_table = 'item';
+  Item({
+    this.id,
+    required this.name,
+    required this.price,
+    required this.quantity,
+    required this.itemImage,
+    required this.categoryId,
+    required this.userId,
+  });
 
-  Future<bool> insertItem(Map<String, dynamic> data) async {
-    return await insertRecord(data);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'quantity': quantity,
+      'item_image': itemImage,
+      'category_id': categoryId,
+      'user_id': userId,
+    };
   }
 
-  Future<List<Map>> getItemsByCategory(int categoryId) async {
-    final database = await DBHelper.getDatabase();
-    return await database.query(db_table,
-        where: 'category_id = ?', whereArgs: [categoryId]);
-  }
-
-  Future<bool> updateItem(int id, Map<String, dynamic> updatedData) async {
-    return await updateRecord(id, updatedData);
-  }
-
-  Future<bool> deleteItem(int id) async {
-    return await deleteRecord(id);
+  factory Item.fromMap(Map<String, dynamic> map) {
+    return Item(
+      id: map['id'],
+      name: map['name'],
+      price: map['price'],
+      quantity: map['quantity'],
+      itemImage: map['item_image'],
+      categoryId: map['category_id'],
+      userId: map['user_id'],
+    );
   }
 }

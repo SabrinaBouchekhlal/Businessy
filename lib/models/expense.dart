@@ -1,41 +1,39 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:businessy/database/base_db.dart';
-import 'package:businessy/database/db_helper.dart';
+class Expense {
+  int? id;
+  String name;
+  double amount;
+  String type;
+  int itemId;
+  int userId;
 
-class ExpenseTable extends DBBaseTable {
-  @override
-  var db_table = 'expense';
+  Expense({
+    this.id,
+    required this.name,
+    required this.amount,
+    required this.type,
+    required this.itemId,
+    required this.userId,
+  });
 
-  Future<bool> insertExpense(Map<String, dynamic> data) async {
-    return await insertRecord(data);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'amount': amount,
+      'type': type,
+      'item_id': itemId,
+      'user_id': userId,
+    };
   }
 
-  Future<List<Map>> getExpensesByItem(int itemId) async {
-    final database = await DBHelper.getDatabase();
-    return await database.query(db_table,
-        where: 'item_id = ?', whereArgs: [itemId]);
-  }
-
-  Future<List<Map>> getGlobalExpenses() async {
-    final database = await DBHelper.getDatabase();
-    return await database.query(db_table, where: 'item_id IS NULL');
-  }
-
-  Future<int> getTotalExpense() async {
-    final database = await DBHelper.getDatabase();
-    var result =
-        await database.rawQuery("SELECT SUM(amount) as total FROM $db_table");
-    if (result.isNotEmpty && result.first['total'] != null) {
-      return (result.first['total'] as num).toInt();
-    }
-    return 0;
-  }
-
-  Future<bool> updateExpense(int id, Map<String, dynamic> updatedData) async {
-    return await updateRecord(id, updatedData);
-  }
-
-  Future<bool> deleteExpense(int id) async {
-    return await deleteRecord(id);
+  factory Expense.fromMap(Map<String, dynamic> map) {
+    return Expense(
+      id: map['id'],
+      name: map['name'],
+      amount: map['amount'],
+      type: map['type'],
+      itemId: map['item_id'],
+      userId: map['user_id'],
+    );
   }
 }

@@ -1,72 +1,65 @@
-import 'package:businessy/database/base_db.dart';
-import 'package:businessy/database/db_helper.dart';
-import 'package:sqflite/sqflite.dart';
+class User {
+  int? id;
+  String firstName;
+  String lastName;
+  String birthdate;
+  String phoneNumber;
+  String email;
+  String password;
+  String businessName;
+  String launchDate;
+  double actualBalance;
+  String typeOfSelling; // Goods or Services
+  String logo;
 
-class UserTable extends DBBaseTable {
-  @override
-  var db_table = 'user';
-  static Map<String, dynamic>? currentUser;
+  User({
+    this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.birthdate,
+    required this.phoneNumber,
+    required this.email,
+    required this.password,
+    required this.businessName,
+    required this.launchDate,
+    required this.actualBalance,
+    required this.typeOfSelling,
+    required this.logo,
+  });
 
-  // Insert a new user (Registration)
-  Future<bool> insertUser(Map<String, dynamic> userData) async {
-    try {
-      final database = await DBHelper.getDatabase();
-      await database.insert(db_table, userData,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      return true; // Success
-    } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
-    }
-    return false; // Failure
+  // Convert a User object to a Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'birthdate': birthdate,
+      'phone_number': phoneNumber,
+      'email': email,
+      'password': password,
+      'business_name': businessName,
+      'launch_date': launchDate,
+      'actual_balance': actualBalance,
+      'type_of_selling': typeOfSelling,
+      'logo': logo,
+    };
   }
 
-
-
-  // Validate user credentials and fetch user data
-  Future<bool> login(String email, String password) async {
-    try {
-      final database = await DBHelper.getDatabase();
-      
-      // Query to validate user and fetch their data
-      var result = await database.rawQuery(
-          "SELECT * FROM $db_table WHERE email = ? AND password = ? LIMIT 1", [email, password]);
-
-      if (result.isNotEmpty) {
-        currentUser = result.first; // Store user data in memory
-        return true; // Login successful
-      }
-    } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
-    }
-    return false; // Login failed
-  }
-
-  // Fetch current user profile data
-  Map<String, dynamic>? getProfileData() {
-    return currentUser;
-  }
-
-  // Update user profile data
-  Future<bool> updateUser(Map<String, dynamic> updatedData) async {
-    try {
-      final database = await DBHelper.getDatabase();
-      int result = await database.update(
-          db_table, updatedData, where: 'id = ?', whereArgs: [currentUser?['id']]);
-
-      if (result > 0) {
-        currentUser = {...currentUser!, ...updatedData}; // Update cached data
-        return true; // Update successful
-      }
-    } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
-    }
-    return false; // Update failed
+  // Convert a Map to a User object
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'],
+      firstName: map['first_name'],
+      lastName: map['last_name'],
+      birthdate: map['birthdate'],
+      phoneNumber: map['phone_number'],
+      email: map['email'],
+      password: map['password'],
+      businessName: map['business_name'],
+      launchDate: map['launch_date'],
+      actualBalance: map['actual_balance'],
+      typeOfSelling: map['type_of_selling'],
+      logo: map['logo'],
+    );
   }
 }
-
-
-
-
-
-
-

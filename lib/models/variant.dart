@@ -1,26 +1,35 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:businessy/database/base_db.dart';
-import 'package:businessy/database/db_helper.dart';
+class Variant {
+  int? id;
+  String name;
+  double price;
+  int quantity;
+  int itemId;
 
-class VariantTable extends DBBaseTable {
-  @override
-  var db_table = 'variant';
+  Variant({
+    this.id,
+    required this.name,
+    required this.price,
+    required this.quantity,
+    required this.itemId,
+  });
 
-  Future<bool> insertVariant(Map<String, dynamic> data) async {
-    return await insertRecord(data);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'quantity': quantity,
+      'item_id': itemId,
+    };
   }
 
-  Future<List<Map>> getVariantsByItem(int itemId) async {
-    final database = await DBHelper.getDatabase();
-    return await database.query(db_table,
-        where: 'item_id = ?', whereArgs: [itemId]);
-  }
-
-  Future<bool> updateVariant(int id, Map<String, dynamic> updatedData) async {
-    return await updateRecord(id, updatedData);
-  }
-
-  Future<bool> deleteVariant(int id) async {
-    return await deleteRecord(id);
+  factory Variant.fromMap(Map<String, dynamic> map) {
+    return Variant(
+      id: map['id'],
+      name: map['name'],
+      price: map['price'],
+      quantity: map['quantity'],
+      itemId: map['item_id'],
+    );
   }
 }

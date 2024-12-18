@@ -1,24 +1,20 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:businessy/database/base_db.dart';
-import 'package:businessy/database/db_helper.dart';
+class Category {
+  int? id;
+  String name;
 
-class CategoryTable extends DBBaseTable {
-  @override
-  var db_table = 'category';
+  Category({this.id, required this.name});
 
-  Future<bool> insertCategory(Map<String, dynamic> data) async {
-    return await insertRecord(data);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+    };
   }
 
-  Future<List<Map>> getAllCategories() async {
-    return await getRecords();
+  factory Category.fromMap(Map<String, dynamic> map) {
+    return Category(
+      id: map['id'],
+      name: map['name'],
+    );
   }
-
-  Future<bool> deleteCategory(int id) async {
-    return await deleteRecord(id);
-  }
-
-
- 
-  
 }
