@@ -1,108 +1,91 @@
 import 'package:equatable/equatable.dart';
 
-
-abstract class WalletEvent extends Equatable{
+abstract class WalletEvent extends Equatable {
   const WalletEvent();
   @override
   List<Object> get props => [];
 }
 
-//when anything triggers an update of balance (ex: paying/undo paying an expenses, selling a new product, etc..)
-class UpdateTotalBalanceEvent extends WalletEvent{
-  final String user_id;
-  final double new_balance;
+class UpdateTotalBalanceEvent extends WalletEvent {
+  final double newBalance;
 
-  const UpdateTotalBalanceEvent({required this.user_id, required this.new_balance});
+  const UpdateTotalBalanceEvent({required this.newBalance});
   @override
-  List<Object> get props => [user_id, new_balance];
+  List<Object> get props => [newBalance];
 }
 
-//not sure if i should keep it or merge it with the previous one???
-class UpdateNetWorthEvent extends WalletEvent{
-  final String user_id;
-  final double new_balance;
+class UpdateNetWorthEvent extends WalletEvent {
+  final double newNetWorth;
 
-  const UpdateNetWorthEvent({required this.user_id, required this.new_balance});
+  const UpdateNetWorthEvent({required this.newNetWorth});
   @override
-  List<Object> get props => [user_id, new_balance];
+  List<Object> get props => [newNetWorth];
 }
 
-//when clicking on 'reset new goal' button
-class ResetFinancialGoalEvent extends WalletEvent{
-  final String user_id;
-  final double new_goal;
+class ResetFinancialGoalEvent extends WalletEvent {
+  final double newGoal;
 
-  const ResetFinancialGoalEvent({required this.user_id, required this.new_goal});
+  const ResetFinancialGoalEvent({required this.newGoal});
   @override
-  List<Object> get props => [user_id, new_goal];
+  List<Object> get props => [newGoal];
 }
 
-//when a rise in the income occurs
-class UpdateFinancialGoalProgressEvent extends WalletEvent{
-  final String user_id;
-  final double new_progress;
+class UpdateFinancialGoalProgressEvent extends WalletEvent {
+  final String userId;
+  final double newProgress;
 
-  const UpdateFinancialGoalProgressEvent({required this.user_id, required this.new_progress});
+  const UpdateFinancialGoalProgressEvent({required this.userId, required this.newProgress});
   @override
-  List<Object> get props => [user_id, new_progress];
+  List<Object> get props => [userId, newProgress];
 }
 
-//when a rise in the income occurs
-//IF WE STORE THE CURRENT BALANCE IN THE DB THEN NO NEED TO ADD THE NEW PROGRESS
-class UpdateChartDataEvent extends WalletEvent{
-  final String user_id;
-  final double new_progress;
+class UpdateChartDataEvent extends WalletEvent {
+  final String userId;
+  final double newProgress;
 
-  const UpdateChartDataEvent({required this.user_id, required this.new_progress});
+  const UpdateChartDataEvent({required this.userId, required this.newProgress});
   @override
-  List<Object> get props => [user_id, new_progress];
+  List<Object> get props => [userId, newProgress];
 }
 
-//when the users add a new global expense to additional expenses table
-class AddGlobalExpenseEvent extends WalletEvent{
-  final String user_id;
-  final String expense_name;
-  final double expense_amount;
+class AddGlobalExpenseEvent extends WalletEvent {
+  final String userId;
+  final String expenseName;
+  final double expenseAmount;
 
-  const AddGlobalExpenseEvent ({required this.user_id, required this.expense_name, required this.expense_amount});
+  const AddGlobalExpenseEvent({required this.userId, required this.expenseName, required this.expenseAmount});
   @override
-  List<Object> get props => [user_id, expense_name, expense_amount];
+  List<Object> get props => [userId, expenseName, expenseAmount];
 }
 
-//when the users delete a global expense to additional expenses table
-class DeleteExpenseEvent extends WalletEvent{
-  final String expense_id;
+class DeleteExpenseEvent extends WalletEvent {
+  final String expenseId;
 
-  const DeleteExpenseEvent ({required this.expense_id});
+  const DeleteExpenseEvent({required this.expenseId});
   @override
-  List<Object> get props => [expense_id];
+  List<Object> get props => [expenseId];
 }
 
-//when the user pay a global expense
-class PayExpenseEvent extends WalletEvent{
-  final String expense_id;
+class PayExpenseEvent extends WalletEvent {
+  final String expenseId;
 
-  const PayExpenseEvent ({required this.expense_id});
+  const PayExpenseEvent({required this.expenseId});
   @override
-  List<Object> get props => [expense_id];
+  List<Object> get props => [expenseId];
 }
 
-//when the user undo paying a global expense
-class UndoPaidExpenseEvent extends WalletEvent{
-  final String expense_id;
+class UndoPaidExpenseEvent extends WalletEvent {
+  final String expenseId;
 
-  const UndoPaidExpenseEvent ({required this.expense_id});
+  const UndoPaidExpenseEvent({required this.expenseId});
   @override
-  List<Object> get props => [expense_id];
+  List<Object> get props => [expenseId];
 }
 
-//when the user pay a global expense
-class LoadPaymentHistoryEvent extends WalletEvent{
-  final String history_id;
+class LoadPaymentHistoryEvent extends WalletEvent {
+  final String historyId;
 
-  const LoadPaymentHistoryEvent ({required this.history_id});
+  const LoadPaymentHistoryEvent({required this.historyId});
   @override
-  List<Object> get props => [history_id];
+  List<Object> get props => [historyId];
 }
-
-
