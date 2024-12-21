@@ -57,8 +57,12 @@ class DBHelper {
             item_image TEXT,
             category_id INTEGER,
             user_id INTEGER,
+<<<<<<< HEAD
             FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE,
             FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+=======
+            FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
           )
         ''');
 
@@ -83,8 +87,12 @@ class DBHelper {
             type TEXT,
             item_id INTEGER,
             user_id INTEGER,
+<<<<<<< HEAD
             FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE,
             FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+=======
+            FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
           )
         ''');
 
@@ -95,8 +103,12 @@ class DBHelper {
             date TEXT,
             item_id INTEGER,
             user_id INTEGER,
+<<<<<<< HEAD
             FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE,
             FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+=======
+            FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
           )
         ''');
 

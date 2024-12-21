@@ -9,7 +9,10 @@ class IncomeTable extends DBBaseTable {
   // Insert income record (used when a user records a sale)
   Future<bool> recordIncome({
     required int itemId,
+<<<<<<< HEAD
     required int userId,
+=======
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
     required int quantitySold,
     required int itemPrice,
   }) async {
@@ -19,7 +22,10 @@ class IncomeTable extends DBBaseTable {
         'date': DateTime.now().toString(),
         'amount': incomeAmount,
         'item_id': itemId,
+<<<<<<< HEAD
         'user_id': userId,
+=======
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
       };
       return await insertRecord(data); // Insert into database
     } catch (e, stacktrace) {
@@ -103,6 +109,7 @@ class IncomeTable extends DBBaseTable {
     }
     return false;
   }
+<<<<<<< HEAD
   
   //get all incomes 
  
@@ -117,4 +124,6 @@ class IncomeTable extends DBBaseTable {
 }
 
  
+=======
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
 }

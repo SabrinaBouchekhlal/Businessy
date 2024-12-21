@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
 import 'package:businessy/blocs/inventory/inventory_event.dart';
 import 'package:businessy/blocs/inventory/inventory_state.dart';
 import 'package:businessy/mainScreen.dart';
@@ -25,10 +29,13 @@ import 'package:businessy/views/screens/user/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/inventory/inventory_bloc.dart';
+<<<<<<< HEAD
 import 'database/tables/income.dart';
 import 'database/tables/item.dart';
 import 'blocs/insights/insights_bloc.dart';
 
+=======
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
 
 void main() {
   runApp(const MainApp());
@@ -43,7 +50,10 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => InventoryBloc(),
+<<<<<<< HEAD
           create: (context) => InsightsBloc()
+=======
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
         ),
       ],
       child: MaterialApp(

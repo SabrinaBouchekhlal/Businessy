@@ -69,5 +69,20 @@ class DBBaseTable {
     }
     return false;
   }
+<<<<<<< HEAD
 
+=======
+/*
+  // Find records based on a condition (useful for specific queries)
+  Future<List<Map>> findRecords(String condition, List<dynamic> args) async {
+    try {
+      final database = await DBHelper.getDatabase();
+      var data = await database.rawQuery("SELECT * FROM $db_table WHERE $condition", args);
+      return data;
+    } catch (e, stacktrace) {
+      print('$e --> $stacktrace');
+    }
+    return [];
+  }*/
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
 }
