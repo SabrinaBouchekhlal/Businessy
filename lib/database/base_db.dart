@@ -18,7 +18,7 @@ class DBBaseTable {
   }
 
   // Get all records in the table
-  Future<List<Map>> getRecords() async {
+  Future<List<Map<String, dynamic>>> getRecords() async {
     try {
       final database = await DBHelper.getDatabase();
       var data = await database.rawQuery("SELECT * FROM $db_table ORDER BY id DESC");

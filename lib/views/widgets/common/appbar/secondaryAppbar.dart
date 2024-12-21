@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class SecondaryAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final VoidCallback? onDonePressed;
 
-  const SecondaryAppbar({super.key, required this.title});
+  const SecondaryAppbar({super.key, required this.title, this.onDonePressed});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -28,7 +29,7 @@ class SecondaryAppbar extends StatelessWidget implements PreferredSizeWidget {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           child: const Text('Done', style: TextStyle(fontSize: 16, fontFamily: 'Urbanist', fontWeight:FontWeight.w700, color:mainGreen)),
-          onPressed: () {Navigator.of(context).pop();},
+          onPressed: onDonePressed,
         ),
       ),
       actions: <Widget>[

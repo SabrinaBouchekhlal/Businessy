@@ -9,7 +9,6 @@ class IncomeTable extends DBBaseTable {
   // Insert income record (used when a user records a sale)
   Future<bool> recordIncome({
     required int itemId,
-    required int userId,
     required int quantitySold,
     required int itemPrice,
   }) async {
@@ -19,7 +18,6 @@ class IncomeTable extends DBBaseTable {
         'date': DateTime.now().toString(),
         'amount': incomeAmount,
         'item_id': itemId,
-        'user_id': userId,
       };
       return await insertRecord(data); // Insert into database
     } catch (e, stacktrace) {

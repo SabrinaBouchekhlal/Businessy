@@ -57,8 +57,7 @@ class DBHelper {
             item_image TEXT,
             category_id INTEGER,
             user_id INTEGER,
-            FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE,
-            FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+            FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE
           )
         ''');
 
@@ -83,8 +82,7 @@ class DBHelper {
             type TEXT,
             item_id INTEGER,
             user_id INTEGER,
-            FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE,
-            FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+            FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE
           )
         ''');
 
@@ -95,8 +93,7 @@ class DBHelper {
             date TEXT,
             item_id INTEGER,
             user_id INTEGER,
-            FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE,
-            FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+            FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE
           )
         ''');
 

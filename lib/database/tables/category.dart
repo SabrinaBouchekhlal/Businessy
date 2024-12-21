@@ -10,7 +10,7 @@ class CategoryTable extends DBBaseTable {
     return await insertRecord(data);
   }
 
-  Future<List<Map>> getAllCategories() async {
+  Future<List<Map<String, dynamic>>> getAllCategories() async {
     return await getRecords();
   }
 

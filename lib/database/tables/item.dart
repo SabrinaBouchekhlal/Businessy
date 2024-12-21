@@ -10,7 +10,7 @@ class ItemTable extends DBBaseTable {
     return await insertRecord(data);
   }
 
-  Future<List<Map>> getItemsByCategory(int categoryId) async {
+  Future<List<Map<String, dynamic>>> getItemsByCategory(int categoryId) async {
     final database = await DBHelper.getDatabase();
     return await database.query(db_table,
         where: 'category_id = ?', whereArgs: [categoryId]);
