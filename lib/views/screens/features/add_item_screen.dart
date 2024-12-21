@@ -112,7 +112,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
 
       // Add the item using bloc
-      context.read<InventoryBloc>().add(AddItemEvent(item));
+      //context.read<InventoryBloc>().add(AddItemEvent(item));
 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

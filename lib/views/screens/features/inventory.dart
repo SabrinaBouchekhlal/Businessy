@@ -157,7 +157,7 @@ class InventoryPage extends StatelessWidget {
       'price': item.price,
       'picture': item.itemImage,
       'quantity': item.quantity,
-      'category': item.categoryId,
+      'category': item.category,
       'variants': [],
       'expenses': [],
     };
