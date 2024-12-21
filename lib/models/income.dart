@@ -2,13 +2,11 @@ class Income {
   int? id;
   String date;
   int itemId;
-  int userId;
 
   Income({
     this.id,
     required this.date,
     required this.itemId,
-    required this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,7 +14,6 @@ class Income {
       'id': id,
       'date': date,
       'item_id': itemId,
-      'user_id': userId,
     };
   }
 
@@ -25,7 +22,6 @@ class Income {
       id: map['id'],
       date: map['date'],
       itemId: map['item_id'],
-      userId: map['user_id'],
     );
   }
 }

@@ -4,7 +4,6 @@ class Expense {
   double amount;
   String type;
   int itemId;
-  int userId;
 
   Expense({
     this.id,
@@ -12,7 +11,6 @@ class Expense {
     required this.amount,
     required this.type,
     required this.itemId,
-    required this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,7 +20,6 @@ class Expense {
       'amount': amount,
       'type': type,
       'item_id': itemId,
-      'user_id': userId,
     };
   }
 
@@ -33,7 +30,6 @@ class Expense {
       amount: map['amount'],
       type: map['type'],
       itemId: map['item_id'],
-      userId: map['user_id'],
     );
   }
 }

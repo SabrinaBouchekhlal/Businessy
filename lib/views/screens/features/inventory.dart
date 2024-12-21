@@ -1,168 +1,165 @@
-import 'package:businessy/views/screens/features/edit_inventory.dart';
+import 'package:businessy/models/item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:businessy/blocs/inventory/inventory_bloc.dart';
+import 'package:businessy/blocs/inventory/inventory_event.dart';
+import 'package:businessy/blocs/inventory/inventory_state.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:businessy/views/widgets/common/customAppbar.dart';
 import 'package:businessy/views/widgets/common/drawer.dart';
-import 'package:businessy/views/widgets/common/navbar.dart';
 import 'package:businessy/views/widgets/inventory%20components/editButton.dart';
 import 'package:businessy/views/widgets/inventory%20components/itemCard.dart';
-import 'package:flutter/material.dart';
 
-//dummy data
-List<String> categories = [
-  'Bags',
-  'Plushies',
-  'Sweaters',
-];
-List<Map<String, dynamic>> itemsList = [
-  {
-    'name': 'Hand Bag',
-    'price': 2000,
-    'picture': 'bag.jpg',
-    'quantity': 10,
-    'variants': [
-      {"variant": "Grey", "quantity": "7"},
-      {"variant": "Black", "quantity": "3"},
-    ],
-    'expenses': [
-      {"expense": "expense1", "amount": "300"},
-      {"expense": "Others", "amount": "650"},
-    ],
-  },
-  {
-    'name': 'Sweater',
-    'price': 3500,
-    'picture': 'sweater.jpg',
-    'quantity': 5,
-    'variants': [
-      {"variant": "Blue", "quantity": "3"},
-      {"variant": "Brown", "quantity": "2"},
-    ],
-    'expenses': [
-      {"expense": "Thread", "amount": "500"},
-      {"expense": "Fabric", "amount": "1500"},
-    ],
-  },
-  {
-    'name': 'Turtle',
-    'price': 1000,
-    'picture': 'turtle.jpg',
-    'quantity': 0,
-    'variants': [
-    ],
-    'expenses': [
-      {"expense": "Wool", "amount": "200"},
-      {"expense": "Dye", "amount": "100"},
-    ],
-  },
-  {
-    'name': 'Large Bag',
-    'price': 3000,
-    'picture': 'large_bag.jpg',
-    'quantity': 15,
-    'variants': [
-      {"variant": "Beige", "quantity": "10"},
-      {"variant": "Black", "quantity": "5"},
-    ],
-    'expenses': [
-      {"expense": "Leather", "amount": "500"},
-      {"expense": "Zipper", "amount": "300"},
-    ],
-  },
-];
-
-String logo = 'assets/img/business_assets/SerineCrochetLOGO.png';
-String businessName = 'Serine Crochet';
-
-class InventoryPage extends StatefulWidget {
+class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
 
   @override
-  State<InventoryPage> createState() => _InventoryPageState();
-}
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => InventoryBloc()..add(LoadCategoriesEvent()),
+      child: BlocBuilder<InventoryBloc, InventoryState>(
+        builder: (context, state) {
+          // Get categories length based on state
+          int tabLength = 1; // Default to 1 for "All" tab
+          List<String> categoryNames = [];
 
-class _InventoryPageState extends State<InventoryPage> {
-  //generate a list of ItemCard widgets from the items dictionary
-  List<ItemCard> generateItemsCards(
-      List<Map<String, dynamic>> dictList, bool isEdit) {
-    return dictList.map((itemData) {
-      return ItemCard(
-        itemData: itemData,
-        isEdit: isEdit,
-      );
-    }).toList();
+          if (state is CategoriesLoadedState) {
+            categoryNames = state.categories.map((category) => category.name).toList();
+            tabLength = categoryNames.length + 1; // +1 for "All" tab
+          }
+
+          return DefaultTabController(
+            length: tabLength,
+            child: Scaffold(
+              backgroundColor: whiteColor,
+              appBar: Customappbar(
+                title: 'Inventory',
+                categories: categoryNames,
+              ),
+              drawer: const CustomDrawer(
+                logo: 'assets/img/business_assets/SerineCrochetLOGO.png',
+                business_name: 'Serine Crochet',
+                index: 3,
+              ),
+              body: _buildBody(context, state),
+            ),
+          );
+        },
+      ),
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    bool isEdit = false;
-    List<ItemCard> _items = generateItemsCards(itemsList, isEdit);
+  Widget _buildBody(BuildContext context, InventoryState state) {
+    if (state is InventoryInitialState) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (state is CategoriesLoadedState) {
+      final categories = state.categories.map((category) => category.name).toList();
+      return _buildInventoryContent(context, categories);
+    } else if (state is ItemsLoadedForCategoryState) {
+      return _buildItemsContent(context, state.items);
+    } else {
+      return const Center(child: Text('An unexpected error occurred'));
+    }
+  }
 
-    return DefaultTabController(
-        length: categories.length + 1,
-        child: Scaffold(
-            backgroundColor: whiteColor,
-            appBar: Customappbar(title: 'Inventory', categories: categories,),
-            drawer:
-                CustomDrawer(logo: logo, business_name: businessName, index: 3),
-            body: TabBarView(children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Column(
-                    children: [
+  Widget _buildInventoryContent(BuildContext context, List<String> categories) {
+    // Load items for the first category
+    context.read<InventoryBloc>().add(const LoadItemsForCategoryEvent(categoryId: 1));
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${_items.length} items found',
-                                style: const TextStyle(
-                                    fontFamily: 'Urbanist',
-                                    color: itemFoundColor)),
-                            Editbutton(
-                              items: itemsList,
-                              categories: categories,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                          child: GridView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height * 1.1),
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemCount: _items.length,
-                        itemBuilder: (context, index) => _items[index],
-                      ))
-                    ],
+    return Column(
+      children: [
+        TabBar(
+          isScrollable: true,
+          tabs: categories.map((category) => Tab(text: category)).toList(),
+          
+    ),
+        Expanded(
+          child: TabBarView(
+            children: [
+              _buildItemsGridView([], context),
+              ...categories.map((category) {
+                final filteredItems = _getItemsForCategory(category);
+                return filteredItems.isEmpty
+                    ? const Center(child: Text('No items found in this category'))
+                    : _buildItemsGridView(filteredItems, context);
+              }).toList(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildItemsContent(BuildContext context, List<Item> items) {
+    final mappedItems = items.map((item) => _mapItemToData(item)).toList();
+    return _buildItemsGridView(mappedItems, context);
+  }
+
+  List<Map<String, dynamic>> _getItemsForCategory(String category) {
+    // Get items filtered by category
+    return [];
+  }
+
+  Widget _buildItemsGridView(List<Map<String, dynamic>> items, BuildContext context) {
+    final itemCards = items
+        .map((itemData) => ItemCard(itemData: itemData, isEdit: false))
+        .toList();
+
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${itemCards.length} items found',
+                  style: const TextStyle(
+                    fontFamily: 'Urbanist',
+                    color: itemFoundColor,
                   ),
                 ),
+                Editbutton(
+                  items: items,
+                  categories: items
+                      .map((item) => item['category'] as String)
+                      .toSet()
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Flexible(
+            child: GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height * 1.1),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
-              Center(
-                child: Text('No items found in this category', style: const TextStyle(fontFamily: 'Urbanist')),
-              ),
-              Center(
-                child: Text('No items found in this category', style: const TextStyle(fontFamily: 'Urbanist')),
-              ),
-              Center(
-                child: Text('No items found in this category', style: const TextStyle(fontFamily: 'Urbanist')),
-              ),
-              Center(
-                child: Text('No items found in this category', style: const TextStyle(fontFamily: 'Urbanist')),
-              ),
-              Center(
-                child: Text('No items found in this category', style: const TextStyle(fontFamily: 'Urbanist')),
-              ),
-            ])));
+              itemCount: itemCards.length,
+              itemBuilder: (context, index) => itemCards[index],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Map<String, dynamic> _mapItemToData(Item item) {
+    return {
+      'name': item.name,
+      'price': item.price,
+      'picture': item.itemImage,
+      'quantity': item.quantity,
+      'category': item.categoryId,
+      'variants': [],
+      'expenses': [],
+    };
   }
 }

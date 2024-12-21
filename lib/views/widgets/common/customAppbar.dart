@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class Customappbar extends StatelessWidget implements PreferredSizeWidget{
   final String title;
   final List<String>? categories; //if it's inventory
-  const Customappbar({super.key, required this.title, this.categories});
+  final VoidCallback? onDonePressed; //if it's secondary
+  const Customappbar({super.key, required this.title, this.categories, this.onDonePressed});
 
 
   @override
@@ -16,7 +17,7 @@ class Customappbar extends StatelessWidget implements PreferredSizeWidget{
 
     return isPrimary!
         ? PrimaryAppbar(title: title, categories: categories)
-        : SecondaryAppbar(title: title);
+        : SecondaryAppbar(title: title, onDonePressed: onDonePressed,);
   }
   @override
   Size get preferredSize =>title=="Inventory"?const Size.fromHeight(kToolbarHeight+48):const Size.fromHeight(kToolbarHeight);

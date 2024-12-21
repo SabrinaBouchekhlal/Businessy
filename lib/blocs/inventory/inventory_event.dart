@@ -11,13 +11,14 @@ abstract class InventoryEvent extends Equatable {
 }
 
 class LoadCategoriesEvent extends InventoryEvent {}
+class LoadItemsEvent extends InventoryEvent {}
 
 class AddCategoryEvent extends InventoryEvent {
-  final Category category;
+  final String categoryName;
 
-  const AddCategoryEvent({required this.category});
+  AddCategoryEvent({required this.categoryName});
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [categoryName];
 }
 
 class DeleteCategoryEvent extends InventoryEvent {
@@ -26,6 +27,13 @@ class DeleteCategoryEvent extends InventoryEvent {
   const DeleteCategoryEvent({required this.categoryId});
   @override
   List<Object> get props => [categoryId];
+}
+
+class LoadAllItemsEvent extends InventoryEvent {
+
+  const LoadAllItemsEvent();
+  @override
+  List<Object> get props => [];
 }
 
 class LoadItemsForCategoryEvent extends InventoryEvent {

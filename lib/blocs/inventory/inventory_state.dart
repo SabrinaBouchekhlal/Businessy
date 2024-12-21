@@ -24,12 +24,12 @@ class CategoriesLoadedState extends InventoryState {
 }
 
 class CategoryAddedState extends InventoryState {
-  final Category category;
+  final String categoryName;
 
-  const CategoryAddedState(this.category);
+  const CategoryAddedState(this.categoryName);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [categoryName];
 }
 
 class CategoryDeletedState extends InventoryState {
@@ -39,6 +39,14 @@ class CategoryDeletedState extends InventoryState {
 
   @override
   List<Object> get props => [categoryId];
+}
+class ItemsAllLoadedState extends InventoryState {
+  final List<Item> items;
+
+  const ItemsAllLoadedState(this.items);
+
+  @override
+  List<Object> get props => [items];
 }
 
 class ItemsLoadedForCategoryState extends InventoryState {

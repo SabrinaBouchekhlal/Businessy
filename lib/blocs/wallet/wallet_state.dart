@@ -24,7 +24,7 @@ class NetWorthState extends WalletState {
 }
 
 class GlobalExpensesState extends WalletState {
-  final List<Map<String, dynamic>> globalExpenses;
+  final List<Map> globalExpenses;
 
   const GlobalExpensesState({required this.globalExpenses});
   @override
