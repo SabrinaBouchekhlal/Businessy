@@ -1,13 +1,24 @@
+<<<<<<< HEAD
+=======
+import 'package:businessy/views/widgets/common/auth/custom_text_field.dart';
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 import 'package:flutter/material.dart';
 import 'package:businessy/views/themes/style/dimensions.dart';
 import 'package:businessy/views/themes/style/styles.dart';
 import 'package:businessy/views/themes/style/typography.dart';
+<<<<<<< HEAD
+=======
+import 'package:businessy/services/auth_service.dart';
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 import 'package:businessy/views/widgets/common/auth/custom_button.dart';
 import 'package:businessy/views/widgets/common/auth/logo.dart';
 import 'package:businessy/views/widgets/common/auth/google_sign_in_button.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:email_validator/email_validator.dart';
+<<<<<<< HEAD
 import 'package:supabase_flutter/supabase_flutter.dart';
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -21,14 +32,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+<<<<<<< HEAD
   final _supabase = Supabase.instance.client;
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
   bool _keepLoggedIn = false;
   bool _obscurePassword = true;
   String? _emailError;
   String? _passwordError;
 
+<<<<<<< HEAD
   Future<void> _login() async {
+=======
+  void _login() {
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
     setState(() {
       _emailError = null;
       _passwordError = null;
@@ -37,11 +55,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
+<<<<<<< HEAD
     // Validate email
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
     if (email.isEmpty || !EmailValidator.validate(email)) {
       setState(() {
         _emailError = 'Invalid email';
       });
+<<<<<<< HEAD
       return;
     }
 
@@ -87,6 +109,19 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _passwordError = 'An error occurred during login';
       });
+=======
+    }
+
+    if (password.isEmpty || !AuthService.validateLogin(email, password)) {
+      setState(() {
+        _passwordError = 'Invalid password';
+      });
+    }
+
+    if (_emailError == null && _passwordError == null) {
+      Navigator.pushNamed(context, '/ProfileScreen');
+
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
     }
   }
 
@@ -135,6 +170,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Email',
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+<<<<<<< HEAD
+=======
+
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
                 ),
                 if (_emailError != null)
                   Padding(
@@ -248,4 +287,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4

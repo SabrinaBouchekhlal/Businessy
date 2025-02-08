@@ -1,9 +1,21 @@
+<<<<<<< HEAD
 // SignUpScreen2.dart
 import 'package:flutter/material.dart';
 import 'package:businessy/services/auth_service.dart'; // Add this for AuthService
 import 'package:businessy/services/form_data.dart'; // UserData
 import 'package:businessy/views/widgets/common/auth/custom_button.dart';
 import 'package:email_validator/email_validator.dart';
+=======
+import 'package:businessy/services/form_data.dart';
+import 'package:businessy/views/themes/style/typography.dart';
+import 'package:businessy/views/widgets/common/auth/custom_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:businessy/views/widgets/common/auth/custom_button.dart';
+import 'package:businessy/views/widgets/common/auth/logo.dart';
+import 'package:businessy/views/themes/style/colors.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:businessy/services/auth_service.dart';
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
 class SignUpScreen2 extends StatefulWidget {
   static const String pageRoute = '/SignUpScreen2';
@@ -11,7 +23,11 @@ class SignUpScreen2 extends StatefulWidget {
   const SignUpScreen2({Key? key}) : super(key: key);
 
   @override
+<<<<<<< HEAD
   _SignUpScreen2State createState() => _SignUpScreen2State();
+=======
+  State<SignUpScreen2> createState() => _SignUpScreen2State();
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 }
 
 class _SignUpScreen2State extends State<SignUpScreen2> {
@@ -23,6 +39,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
+<<<<<<< HEAD
 void _proceedToBusinessSetup() {
   if (_formKey.currentState?.validate() ?? false) {
     UserData.email = _emailController.text;
@@ -39,6 +56,19 @@ void _proceedToBusinessSetup() {
     Navigator.pushNamed(context, '/BusinessSetupScreen');
   }
 }
+=======
+  void _register() {
+    if (_formKey.currentState?.validate() ?? false) {
+      // Store the email and password in AuthService when registration is successful
+      AuthService.setEmail(_emailController.text);
+      AuthService.setPassword(_passwordController.text);
+      UserData.email = _emailController.text;
+      UserData.password = _passwordController.text;
+      // Navigate to the next screen after registration
+      Navigator.pushNamed(context, '/BusinessSetupScreen');
+    }
+  }
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
   Widget _buildHeader() {
     return const Column(
@@ -93,10 +123,17 @@ void _proceedToBusinessSetup() {
       validator: validator,
     );
   }
+<<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // Your previous UI code
+=======
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
       backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -115,7 +152,11 @@ void _proceedToBusinessSetup() {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+<<<<<<< HEAD
                  Center(child: _buildHeader()),
+=======
+                Center(child: _buildHeader()),
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
                 const SizedBox(height: 20.0),
                 _buildTextField(
                   labelText: 'Email',
@@ -172,10 +213,16 @@ void _proceedToBusinessSetup() {
                   },
                 ),
                 const SizedBox(height: 37.0),
+<<<<<<< HEAD
                 // UI Components for Email, Password, Confirm Password
                 CustomButton(
                   text: 'Register',
                   onPressed:  _proceedToBusinessSetup,//_register,  // Call the _register function
+=======
+                CustomButton(
+                  text: 'Register',
+                  onPressed: _register,
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
                 ),
               ],
             ),

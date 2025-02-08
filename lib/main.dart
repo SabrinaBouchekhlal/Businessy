@@ -33,6 +33,7 @@ import 'blocs/inventory/inventory_bloc.dart';
 import 'database/tables/income.dart';
 import 'database/tables/item.dart';
 import 'blocs/insights/insights_bloc.dart';
+<<<<<<< HEAD
 import'package:supabase_flutter/supabase_flutter.dart';
 =======
 >>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
@@ -53,6 +54,16 @@ Future<void> main() async {
 
 final supabase = Supabase.instance.client;
 
+=======
+
+=======
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
+
+void main() {
+  runApp(const MainApp());
+}
+
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 

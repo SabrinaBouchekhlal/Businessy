@@ -7,19 +7,26 @@ import 'package:businessy/views/widgets/common/auth/google_sign_in_button.dart';
 import 'package:businessy/views/themes/style/typography.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:businessy/services/auth_service.dart'; // Add this
 import 'package:businessy/services/form_data.dart'; // Make sure you have this for UserData
 import 'package:businessy/views/widgets/common/auth/custom_button.dart';
 
 
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 class SignUpScreen extends StatefulWidget {
   static const String pageRoute = '/SignUpScreen';
 
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
+<<<<<<< HEAD
   _SignUpScreenState createState() => _SignUpScreenState();
+=======
+  State<SignUpScreen> createState() => _SignUpScreenState();
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
@@ -29,7 +36,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _birthDateController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
   Future<void> _selectDate() async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -41,6 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (pickedDate != null) {
       setState(() {
         _birthDateController.text =
+<<<<<<< HEAD
 
 
         
@@ -52,10 +63,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 
 
+=======
+        "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
       });
     }
   }
 
+<<<<<<< HEAD
 Future<void> _register() async {
   if (_formKey.currentState?.validate() ?? false) {
     UserData.firstName = _firstNameController.text;
@@ -69,6 +84,9 @@ Future<void> _register() async {
 }
 
    Widget _buildHeader() {
+=======
+  Widget _buildHeader() {
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
     return const Column(
       children: [
         Logo(),
@@ -123,10 +141,16 @@ Future<void> _register() async {
       ),
     );
   }
+<<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
    
       
+=======
+
+  @override
+  Widget build(BuildContext context) {
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -137,6 +161,7 @@ Future<void> _register() async {
           onPressed: () => Navigator.pop(context),
         ),
       ),
+<<<<<<< HEAD
       // Your previous UI code
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -148,6 +173,19 @@ Future<void> _register() async {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(child: _buildHeader()),
+=======
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 36),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(child: _buildHeader()),
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
                   const SizedBox(height: 20.0),
                   _buildTextField(
                     labelText: 'First Name',
@@ -208,16 +246,55 @@ Future<void> _register() async {
                     },
                   ),
                   const SizedBox(height: 23.0),
+<<<<<<< HEAD
                 // UI Components for First Name, Last Name, etc.
                 CustomButton(
                   text: 'Next',
                   onPressed: _register,  // Call the _register function
                 ),
               ],
+=======
+                  CustomButton(
+                    text: 'Next',
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() == true) {
+                        UserData.firstName = _firstNameController.text;
+                        UserData.lastName = _lastNameController.text;
+                        UserData.birthDate = _birthDateController.text;
+                        UserData.phoneNumber = _phoneController.text;
+                        // Navigate to the next screen if all validations pass
+                        Navigator.pushNamed(context, '/SignUpScreen2');
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 8.0),
+                  const Center(
+                    child: Text(
+                      'or',
+                      style: TextStyle(fontSize: 14.0, color: blackColor),
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Center(
+                    child: GoogleSignInButton(
+                      onPressed: () {
+                        // Google sign-in functionality
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 40.0),
+                  _buildFooter(),
+                ],
+              ),
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
             ),
           ),
         ),
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4

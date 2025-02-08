@@ -1,13 +1,19 @@
 import 'dart:io';
 import 'package:businessy/services/form_data.dart';
+<<<<<<< HEAD
 import 'package:businessy/services/auth_service.dart';
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:businessy/views/widgets/common/auth/custom_button.dart';
 import 'package:businessy/views/themes/style/typography.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:businessy/views/widgets/common/auth/logo.dart';
+<<<<<<< HEAD
 import 'package:supabase_flutter/supabase_flutter.dart';
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
 class LogoUploadScreen extends StatefulWidget {
   const LogoUploadScreen({super.key});
@@ -20,12 +26,20 @@ class LogoUploadScreen extends StatefulWidget {
 
 class _LogoUploadScreenState extends State<LogoUploadScreen> {
   File? _logoImage;
+<<<<<<< HEAD
   bool _isProcessing = false;
   String? _logoUrl;
 
   Future<void> _pickLogo() async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+=======
+
+  Future<void> _pickLogo() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
     if (pickedFile != null) {
       setState(() {
@@ -33,6 +47,7 @@ class _LogoUploadScreenState extends State<LogoUploadScreen> {
       });
     }
   }
+<<<<<<< HEAD
    
 Future<String?> _uploadLogo() async {
   if (_logoImage == null) return null;
@@ -140,6 +155,8 @@ Future<String?> _uploadLogo() async {
       }
     }
   }
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +166,14 @@ Future<String?> _uploadLogo() async {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         leading: IconButton(
+<<<<<<< HEAD
           icon: const Icon(Icons.arrow_back_rounded, size: 30),
+=======
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            size: 30,
+          ),
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -225,12 +249,21 @@ Future<String?> _uploadLogo() async {
                   ),
                 ),
                 const SizedBox(height: 40.0),
+<<<<<<< HEAD
                 _isProcessing
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         text: 'Complete Registration',
                         onPressed: _completeRegistration,
                       ),
+=======
+                CustomButton(
+                  text: 'Finish',
+                  onPressed: () {
+                    UserData.logo= _logoImage.toString();
+                    Navigator.pushNamed(context, '/MainScreen');},
+                ),
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
               ],
             ),
           ),
@@ -238,4 +271,8 @@ Future<String?> _uploadLogo() async {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4

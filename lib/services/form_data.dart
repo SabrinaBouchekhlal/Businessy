@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 class FormData {
   // Singleton implementation
   FormData._privateConstructor();
@@ -15,7 +19,11 @@ class FormData {
   // Selected dropdown value
   static String selectedSellingType = 'Products';
 
+<<<<<<< HEAD
   // Utility method to clear form data
+=======
+  // Utility method to clear form data (if needed later)
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
   static void clearData() {
     businessNameController.clear();
     launchDateController.clear();
@@ -26,6 +34,7 @@ class FormData {
 }
 
 class UserData {
+<<<<<<< HEAD
   static String? firstName;
   static String? lastName;
   static String? birthDate;
@@ -60,4 +69,17 @@ class UserData {
            email != null && 
            password.isNotEmpty;
   }
+=======
+  static String firstName = 'Nada';
+  static String lastName = 'Zanoun';
+  static String birthDate = '22/03/2005';
+  static String phoneNumber = '07796562442';
+  static String email = 'nada.zanoun@ensia.edu.dz';
+  static String password = 'nada,zanoun';
+  static String businessName = 'Serine Crochet';
+  static String launchDate = '27/07/2024';
+  static String actualBalance = '61000';
+  static String sellingType = 'Products';
+  static String logo = '';
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 }

@@ -26,9 +26,12 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_bloc: ^8.1.6
   sqflite: ^2.4.1
+<<<<<<< HEAD
   mocktail: ^0.3.0
   bloc_test: ^9.1.0
   supabase_flutter: ^2.8.3
+=======
+>>>>>>> 73c77803b07fef7bff57c289ea44f4545cb6a4b4
 
 dev_dependencies:
   flutter_test:
