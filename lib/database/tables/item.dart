@@ -13,10 +13,27 @@ class ItemTable extends DBBaseTable {
     final database = await DBHelper.getDatabase();
     return await database.query(db_table);
   }
-  Future<List<Map<String, dynamic>>> getItemsByCategory(int categoryId) async {
+  Future<List<Map>> getItemsByCategory(int categoryId) async {
+
     final database = await DBHelper.getDatabase();
     return await database.query(db_table,
         where: 'category_id = ?', whereArgs: [categoryId]);
+  }
+  /// Fetches item names for a list of item IDs
+  Future<List<String>> getItemNames(List<int> itemIds) async {
+    final database = await DBHelper.getDatabase();
+    // Create placeholders for the list of IDs
+    final idPlaceholders = List.filled(itemIds.length, '?').join(', ');
+
+    final result = await database.query(
+      db_table,
+      columns: ['name'], // Only select the 'name' column
+      where: 'id IN ($idPlaceholders)',
+      whereArgs: itemIds,
+    );
+
+    // Extract the names into a List<String>
+    return result.map((item) => item['name'] as String).toList();
   }
 
   Future<bool> updateItem(int id, Map<String, dynamic> updatedData) async {

@@ -3,6 +3,37 @@ import 'package:businessy/models/income.dart';
 import 'package:equatable/equatable.dart';
 import 'package:businessy/models/item.dart';
 
+<<<<<<< HEAD
+import 'package:equatable/equatable.dart';
+
+class SalesData {
+  final int week;
+  final String month;
+  final double income;
+  final double expenses;
+
+  SalesData({
+    required this.week,
+    required this.month,
+    required this.income,
+    required this.expenses,
+  });
+}
+
+class TopSoldItem {
+  final String item;
+  final double revenue;
+
+  TopSoldItem({required this.item, required this.revenue});
+}
+
+class InsightsState extends Equatable {
+  final List<SalesData> weeklySalesData;
+  final List<TopSoldItem> topSoldItems;
+
+  const InsightsState({
+    required this.weeklySalesData,
+=======
 abstract class InsightsState extends Equatable {
   const InsightsState();
 
@@ -31,9 +62,19 @@ class TopSoldItemsLoadedState extends InsightsState {
 
   const TopSoldItemsLoadedState({
     required this.period,
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
     required this.topSoldItems,
   });
 
   @override
+<<<<<<< HEAD
+  List<Object?> get props => [weeklySalesData, topSoldItems];
+}
+
+class InsightsInitial extends InsightsState {
+  const InsightsInitial()
+      : super(weeklySalesData: const [], topSoldItems: const []);
+=======
   List<Object> get props => [period, topSoldItems];
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
 }

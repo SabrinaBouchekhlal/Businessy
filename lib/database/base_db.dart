@@ -69,6 +69,9 @@ class DBBaseTable {
     }
     return false;
   }
+<<<<<<< HEAD
+
+=======
 /*
   // Find records based on a condition (useful for specific queries)
   Future<List<Map>> findRecords(String condition, List<dynamic> args) async {
@@ -81,4 +84,5 @@ class DBBaseTable {
     }
     return [];
   }*/
+>>>>>>> 6012124136260cfbc70a3af03cc305feb6b05a81
 }
