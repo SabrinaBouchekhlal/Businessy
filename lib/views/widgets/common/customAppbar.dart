@@ -15,8 +15,8 @@ class Customappbar extends StatelessWidget implements PreferredSizeWidget{
     bool isPrimary = false;
     if(title=='Home' || title=='Inventory' || title=='Insights' || title=='Wallet') isPrimary = true;
 
-    return isPrimary!
-        ? PrimaryAppbar(title: title, categories: categories)
+    return isPrimary
+        ? PrimaryAppbar(title: title, categories: categories ?? [])
         : SecondaryAppbar(title: title, onDonePressed: onDonePressed,);
   }
   @override

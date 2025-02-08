@@ -9,7 +9,10 @@ class ItemTable extends DBBaseTable {
   Future<bool> insertItem(Map<String, dynamic> data) async {
     return await insertRecord(data);
   }
-
+  Future<List<Map<String, dynamic>>> getAllItems() async {
+    final database = await DBHelper.getDatabase();
+    return await database.query(db_table);
+  }
   Future<List<Map<String, dynamic>>> getItemsByCategory(int categoryId) async {
     final database = await DBHelper.getDatabase();
     return await database.query(db_table,

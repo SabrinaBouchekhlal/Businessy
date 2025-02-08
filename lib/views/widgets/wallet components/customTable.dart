@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class CustomTable extends StatefulWidget {
   final String title;
-  final List<Map<String, String>> entries;
+  final List<Map> entries;
   final TextEditingController fieldController1;
   final TextEditingController fieldController2;
   final Function addEntry;

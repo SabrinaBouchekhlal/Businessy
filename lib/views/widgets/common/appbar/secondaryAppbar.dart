@@ -44,7 +44,8 @@ class SecondaryAppbar extends StatelessWidget implements PreferredSizeWidget {
                 fontSize: 14, // Standard font size
               ),
             ),
-            onPressed: () {Navigator.of(context).pop();},
+            onPressed: () {Navigator.of(context).pop();
+              },
           ),
         ),
       ],

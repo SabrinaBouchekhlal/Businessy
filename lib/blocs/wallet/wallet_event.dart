@@ -31,12 +31,11 @@ class ResetFinancialGoalEvent extends WalletEvent {
 }
 
 class UpdateFinancialGoalProgressEvent extends WalletEvent {
-  final String userId;
-  final double newProgress;
+  final int newProgress;
 
-  const UpdateFinancialGoalProgressEvent({required this.userId, required this.newProgress});
+  const UpdateFinancialGoalProgressEvent({ required this.newProgress});
   @override
-  List<Object> get props => [userId, newProgress];
+  List<Object> get props => [newProgress];
 }
 
 class UpdateChartDataEvent extends WalletEvent {
@@ -49,13 +48,12 @@ class UpdateChartDataEvent extends WalletEvent {
 }
 
 class AddGlobalExpenseEvent extends WalletEvent {
-  final String userId;
   final String expenseName;
   final double expenseAmount;
 
-  const AddGlobalExpenseEvent({required this.userId, required this.expenseName, required this.expenseAmount});
+  const AddGlobalExpenseEvent({required this.expenseName, required this.expenseAmount});
   @override
-  List<Object> get props => [userId, expenseName, expenseAmount];
+  List<Object> get props => [expenseName, expenseAmount];
 }
 
 class DeleteExpenseEvent extends WalletEvent {
@@ -83,9 +81,8 @@ class UndoPaidExpenseEvent extends WalletEvent {
 }
 
 class LoadPaymentHistoryEvent extends WalletEvent {
-  final String historyId;
 
-  const LoadPaymentHistoryEvent({required this.historyId});
+  const LoadPaymentHistoryEvent();
   @override
-  List<Object> get props => [historyId];
+  List<Object> get props => [];
 }

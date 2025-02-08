@@ -1,90 +1,59 @@
-import 'package:businessy/views/themes/style/colors.dart';
-import 'package:businessy/views/themes/style/styles.dart';
-import 'package:businessy/views/themes/style/dimensions.dart';
-import 'package:businessy/views/themes/style/typography.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:businessy/blocs/inventory/inventory_bloc.dart';
+import 'package:businessy/blocs/inventory/inventory_state.dart';
+import 'package:businessy/blocs/inventory/inventory_event.dart';
 import 'package:flutter/material.dart';
+import 'package:businessy/views/themes/style/colors.dart';
+import 'package:businessy/views/themes/style/typography.dart';
 
-class PrimaryAppbar extends StatefulWidget implements PreferredSizeWidget {
+class PrimaryAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final List<String>? categories; // Accept a list of categories
+  final List<String> categories;
 
-  const PrimaryAppbar({super.key, required this.title, this.categories});
+  const PrimaryAppbar({super.key, required this.title, required this.categories});
 
-  @override
-  State<PrimaryAppbar> createState() => _PrimaryAppbarState();
-
-  @override
-  Size get preferredSize =>
-      title=="Inventory"?const Size.fromHeight(kToolbarHeight+48):const Size.fromHeight(kToolbarHeight);// Adjust height for TabBar
-}
-
-class _PrimaryAppbarState extends State<PrimaryAppbar> {
   @override
   Widget build(BuildContext context) {
-    String title = widget.title;
     bool isInventory = title == 'Inventory';
-    bool isHome = title == 'Home';
-
+print('CATEGOREIS FROM PRIMARY APPBAR: $categories');
     return AppBar(
-      title: Text(
-        title,
-        style: AppBarTypography.title,
-      ),
+      title: Text(title, style: AppBarTypography.title),
       centerTitle: true,
       backgroundColor: whiteColor,
-      surfaceTintColor: Colors.transparent,
       elevation: 4,
       shadowColor: Colors.black.withOpacity(0.3),
       leading: IconButton(
-        icon: const Icon(
-          Icons.menu_rounded,
-          size: 28,
-        ),
+        icon: const Icon(Icons.menu_rounded, size: 28),
         onPressed: () {
-          Scaffold.of(context).openDrawer(); // Open the drawer
+          Scaffold.of(context).openDrawer();
         },
       ),
-      actions: !isHome
-          ? [
-              IconButton(
-                icon: const Icon(Icons.account_circle_rounded),
-                onPressed: () { },
-              )
-            ]
-          : null,
-      bottom: isInventory
-          ? TabBar(
-              indicatorWeight: 1,
-              indicatorColor: mainGreen,
-              tabAlignment: TabAlignment.center,
-              labelStyle: const TextStyle(
-                  fontFamily: 'Urbanist', color: darkGrey, fontSize: 14),
-              isScrollable: true,
-              // Make tabs scrollable for dynamic length
-              tabs: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Tab(
-                      child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('All'),
-                  )),
-                ), // First tab
-                if (widget
-                    .categories!.isNotEmpty) // Check if categories is not null
-                  ...widget.categories!
-                      .map((category) => Padding(
-                            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                            child: Tab(
-                                child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(category),
-                            )),
-                          ))
-                      .toList(), // Generate tabs dynamically
-              ],
-            )
-          : null,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.account_circle_rounded),
+          onPressed: () {},
+        ),
+      ],
+      bottom: isInventory ? _buildCategoryTabs(context) : null,
     );
   }
+
+  PreferredSizeWidget _buildCategoryTabs(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(48),
+      child: TabBar(
+        indicatorWeight: 1,
+        indicatorColor: mainGreen,
+        isScrollable: true,
+        labelColor: mainGreen,
+        tabs: [
+          const Tab(child: Text('All', style:TextStyle(fontFamily: 'Urbanist'))), // Default "All" tab
+          ...categories.map((category) => Tab(child: Text(category, style:TextStyle(fontFamily: 'Urbanist',)))).toList(),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 48);
 }

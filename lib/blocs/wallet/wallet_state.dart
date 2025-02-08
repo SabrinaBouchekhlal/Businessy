@@ -6,6 +6,12 @@ abstract class WalletState extends Equatable {
   @override
   List<Object?> get props => [];
 }
+class WalletInitialState extends WalletState {
+
+  const WalletInitialState();
+  @override
+  List<Object?> get props => [];
+}
 
 class CurrentBalanceState extends WalletState {
   final double balance;
@@ -40,7 +46,7 @@ class PaymentHistoryState extends WalletState {
 }
 
 class GoalProgressState extends WalletState {
-  final double goalProgress;
+  final int goalProgress;
 
   const GoalProgressState({required this.goalProgress});
   @override

@@ -1,6 +1,9 @@
+import 'package:businessy/models/item.dart';
 import 'package:businessy/views/screens/features/edit_inventory.dart';
 import 'package:businessy/views/themes/style/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../../models/category.dart';
 List<String> categories = [
   'Bags',
   'Plushies',
@@ -9,14 +12,14 @@ List<String> categories = [
   'Sweaters'
 ];
 class Editbutton extends StatelessWidget {
-  final List<Map<String, dynamic>> items;
-  final List<String> categories;
+  final List<Item> items;
+  final List<Category> categories;
 
   const Editbutton({super.key, required this.items, required this.categories});
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> _items = items;
+    List<Item> _items = items;
 
     return TextButton(
       onPressed: () {
@@ -24,7 +27,7 @@ class Editbutton extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context)
         =>
-            EditInventory(items: _items, categories: categories,)
+            EditInventory(items: _items)
         ));
 
       },

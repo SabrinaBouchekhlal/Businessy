@@ -15,7 +15,8 @@ import 'package:businessy/models/expense.dart';
 import 'package:businessy/models/category.dart';
 
 class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({Key? key}) : super(key: key);
+  final List<Category> categories;
+  const AddItemScreen({Key? key, required this.categories}) : super(key: key);
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
@@ -37,13 +38,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   File? _itemImage;
   final List<Variant> variants = [];
   final List<Expense> expenses = [];
-
-  // Sample categories - replace with actual data from your backend
-  final List<Category> categories = [
-    Category(id: 1, name: 'Bags'),
-    Category(id: 2, name: 'Plushies'),
-    Category(id: 3, name: 'Sweaters'),
-  ];
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -110,9 +104,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
         variants: variants,
         expenses: expenses,
       );
-
-      // Add the item using bloc
-      //context.read<InventoryBloc>().add(AddItemEvent(item));
+print('ITEM JUST ADDED ------->${item.toMap()}');
+      // Add the item using
+      context.read<InventoryBloc>().add(AddItemEvent(item: item));
 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -123,52 +117,60 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<InventoryBloc, InventoryState>(
-      listener: (context, state) {
-        if (state is ItemAddedState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Item added successfully')),
-          );
-          Navigator.pop(context);
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: Customappbar(
-          title: 'Add Item',
-          onDonePressed: saveItem,
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              _buildItemNameField(),
-              const SizedBox(height: 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(child: _buildImageSection()),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    child: Column(
-                      children: [
-                        _buildPriceSection(),
-                        const SizedBox(height: 20),
-                        _buildQuantitySection(),
-                      ],
+    List<Category> categories = widget.categories;
+    return BlocProvider(
+      create: (context) => InventoryBloc()..add(LoadCategoriesEvent()),
+      child: BlocListener<InventoryBloc, InventoryState>(
+        listener: (context, state) {
+          if (state is ItemAddedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Item added successfully')),
+            );
+            Navigator.pop(context);
+          }
+          if (state is CategoriesLoadedState) {
+            categories = state.categories.map((category) => category).toList();
+            print('Categories loaded in item page--------> $categories');
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: Customappbar(
+            title: 'Add Item',
+            onDonePressed: saveItem,
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                _buildItemNameField(),
+                const SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(child: _buildImageSection()),
+                    const SizedBox(width: 20),
+                    Flexible(
+                      child: Column(
+                        children: [
+                          _buildPriceSection(),
+                          const SizedBox(height: 20),
+                          _buildQuantitySection(),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              _buildCategoryDropdown(),
-              const SizedBox(height: 20),
-              _buildVariantsSection(),
-              const SizedBox(height: 20),
-              _buildExpensesSection(),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 20),
+                _buildCategoryDropdown(),
+                const SizedBox(height: 20),
+                _buildVariantsSection(),
+                const SizedBox(height: 20),
+                _buildExpensesSection(),
+              ],
+            ),
           ),
         ),
       ),
@@ -296,6 +298,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget _buildCategoryDropdown() {
+    List<Category> categories = widget.categories;
+    print('category ==========> ${categories}');
     return DropdownButtonFormField<Category>(
       value: selectedCategory,
       hint: const Text('Select Category'),
@@ -305,6 +309,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         });
       },
       items: categories.map((Category category) {
+        print('category =========> ${category.name}');
         return DropdownMenuItem<Category>(
           value: category,
           child: Text(category.name),
