@@ -9,6 +9,7 @@ import 'package:businessy/views/widgets/common/customAppbar.dart';
 import 'package:businessy/views/widgets/common/drawer.dart';
 import 'package:businessy/views/widgets/inventory%20components/editButton.dart';
 import 'package:businessy/views/widgets/inventory%20components/itemCard.dart';
+import 'package:businessy/database/db_helper.dart';
 
 class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
@@ -16,20 +17,24 @@ class InventoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => InventoryBloc()..add(LoadCategoriesEvent()),
+      create: (context) => InventoryBloc()..add(LoadCategoriesEvent())..add(LoadAllItemsEvent()),
       child: BlocBuilder<InventoryBloc, InventoryState>(
         builder: (context, state) {
-          // Get categories length based on state
-          int tabLength = 1; // Default to 1 for "All" tab
           List<String> categoryNames = [];
+          List<Item> allItems = [];
 
-          if (state is CategoriesLoadedState) {
+          if (state is InventoryInitialState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          else if (state is CategoriesLoadedState) {
             categoryNames = state.categories.map((category) => category.name).toList();
-            tabLength = categoryNames.length + 1; // +1 for "All" tab
+          }
+          else if (state is ItemsAllLoadedState) {
+            allItems = state.items;
           }
 
           return DefaultTabController(
-            length: tabLength,
+            length: categoryNames.isNotEmpty ? categoryNames.length + 1 : 1,
             child: Scaffold(
               backgroundColor: whiteColor,
               appBar: Customappbar(
@@ -41,7 +46,7 @@ class InventoryPage extends StatelessWidget {
                 business_name: 'Serine Crochet',
                 index: 3,
               ),
-              body: _buildBody(context, state),
+              body: _buildBody(context, categoryNames, allItems),
             ),
           );
         },
@@ -49,39 +54,23 @@ class InventoryPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, InventoryState state) {
-    if (state is InventoryInitialState) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (state is CategoriesLoadedState) {
-      final categories = state.categories.map((category) => category.name).toList();
-      return _buildInventoryContent(context, categories);
-    } else if (state is ItemsLoadedForCategoryState) {
-      return _buildItemsContent(context, state.items);
-    } else {
-      return const Center(child: Text('An unexpected error occurred'));
-    }
-  }
-
-  Widget _buildInventoryContent(BuildContext context, List<String> categories) {
-    // Load items for the first category
-    context.read<InventoryBloc>().add(const LoadItemsForCategoryEvent(categoryId: 1));
-
+  Widget _buildBody(BuildContext context, List<String> categories, List<Item> allItems) {
     return Column(
       children: [
-        TabBar(
-          isScrollable: true,
-          tabs: categories.map((category) => Tab(text: category)).toList(),
-          
-    ),
         Expanded(
           child: TabBarView(
             children: [
-              _buildItemsGridView([], context),
+              _buildItemsGridView(allItems, context), // "All" tab
               ...categories.map((category) {
-                final filteredItems = _getItemsForCategory(category);
-                return filteredItems.isEmpty
-                    ? const Center(child: Text('No items found in this category'))
-                    : _buildItemsGridView(filteredItems, context);
+                return BlocBuilder<InventoryBloc, InventoryState>(
+                  builder: (context, state) {
+                    List<Item> filteredItems = [];
+                    if (state is ItemsLoadedForCategoryState) {
+                      filteredItems = state.items;
+                    }
+                    return _buildItemsGridView(filteredItems, context);
+                  },
+                );
               }).toList(),
             ],
           ),
@@ -90,23 +79,11 @@ class InventoryPage extends StatelessWidget {
     );
   }
 
-  Widget _buildItemsContent(BuildContext context, List<Item> items) {
-    final mappedItems = items.map((item) => _mapItemToData(item)).toList();
-    return _buildItemsGridView(mappedItems, context);
-  }
-
-  List<Map<String, dynamic>> _getItemsForCategory(String category) {
-    // Get items filtered by category
-    return [];
-  }
-
-  Widget _buildItemsGridView(List<Map<String, dynamic>> items, BuildContext context) {
-    final itemCards = items
-        .map((itemData) => ItemCard(itemData: itemData, isEdit: false))
-        .toList();
+  Widget _buildItemsGridView(List<Item> items, BuildContext context) {
+    final itemCards = items.map((item) => ItemCard(itemData: item.toMap(), isEdit: false)).toList();
 
     return Padding(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           Padding(
@@ -123,16 +100,13 @@ class InventoryPage extends StatelessWidget {
                 ),
                 Editbutton(
                   items: items,
-                  categories: items
-                      .map((item) => item['category'] as String)
-                      .toSet()
-                      .toList(),
+                  categories: items.map((item) => item.category).toSet().toList(),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 10),
-          Flexible(
+          Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -149,17 +123,5 @@ class InventoryPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Map<String, dynamic> _mapItemToData(Item item) {
-    return {
-      'name': item.name,
-      'price': item.price,
-      'picture': item.itemImage,
-      'quantity': item.quantity,
-      'category': item.category,
-      'variants': [],
-      'expenses': [],
-    };
   }
 }

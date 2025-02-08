@@ -14,7 +14,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     required this.incomeTable,
     required this.expenseTable,
     required this.historyTable,
-  }) : super(const CurrentBalanceState(balance: 0.0)) {
+  }) : super(WalletInitialState()) {
     on<UpdateTotalBalanceEvent>((event, emit) async {
       emit(CurrentBalanceState(balance: event.newBalance));
     });
@@ -24,7 +24,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     });
 
     on<ResetFinancialGoalEvent>((event, emit) async {
-      emit(GoalProgressState(goalProgress: 0.0));
+      emit(GoalProgressState(goalProgress: 0));
     });
 
     on<UpdateFinancialGoalProgressEvent>((event, emit) async {

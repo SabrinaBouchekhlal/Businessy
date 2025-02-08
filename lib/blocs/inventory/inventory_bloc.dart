@@ -19,15 +19,19 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
   final VariantTable _variantTable = VariantTable();
 
   InventoryBloc() : super(InventoryInitialState()) {
+    List<Category> categories;
+
     // Handle LoadCategoriesEvent
     on<LoadCategoriesEvent>((event, emit) async {
       try {
-        final categories = await _categoryTable.getAllCategories();
-        final categoriesList =
-            categories.map((category) => Category.fromMap(category)).toList();
-        print('CATEGORIES LOADED: ');
-        print(categoriesList);
-        emit(CategoriesLoadedState(categoriesList));
+        final categoriesMap = await _categoryTable.getAllCategories();
+
+        for (final category in categoriesMap) {
+          Category.fromMap(category);
+        }
+        categories = categoriesMap.map((category) => Category.fromMap(category)).toList();
+        print('CATEGOREIES FROM BLOC: $categories');
+        emit(CategoriesLoadedState(categories));
       } catch (e) {
         print(e);
       }
@@ -64,6 +68,7 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
     // Handle AddItemEvent
     on<AddItemEvent>((event, emit) async {
       final itemData = event.item.toMap();
+      print('*********** ITEM FROM BLOC: $itemData');
       final success = await _itemTable.insertItem(itemData);
       if (success) {
         emit(ItemAddedState(event.item));
@@ -86,6 +91,18 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
         emit(ItemDeletedState(event.itemId));
       }
     });
+
+    // Handle LoadAllItemsEvent
+    on<LoadAllItemsEvent>((event, emit) async {
+      try {
+        final itemsMap = await _itemTable.getAllItems();
+        final items = itemsMap.map((item) => Item.fromMap(item)).toList();
+        emit(ItemsAllLoadedState(items));
+      } catch (e) {
+        print(e);
+      }
+    });
+
 
     // Handle AddVariantEvent
     on<AddVariantEvent>((event, emit) async {
